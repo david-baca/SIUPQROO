@@ -1,0 +1,14 @@
+mi_proyecto/
+│
+├── controladores/
+│   └── dataController.js
+│
+├── modelos/
+│   └── database.js
+│
+├── vistas/
+│   └── application.js
+│
+├── .env
+│
+└── package.json
