@@ -1,0 +1,12 @@
+:root {
+  font-family: Roboto, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+}
+/* 
+@media only screen and (max-width: 600px) {
+  :root {
+    width: 100%;
+    height: 2000px;
+    background-size: cover;
+  }
+} */

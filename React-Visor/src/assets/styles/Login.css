@@ -1,0 +1,28 @@
+/* Login.css */
+.login-container {
+  background-image: url(../public/LogoCafe.jpg);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  width: 100%;
+  height: 100vh; 
+  box-sizing: border-box; 
+}
+
+.logoLogin {
+  width: 60%;
+  margin-top: 20px;
+  margin: 0 auto;
+}
+.btnGoogleLogin {
+  width: 100%;
+  border-color: #fbbf89 !important;
+  color: #717171 !important;
+}
+.btnGoogleLogin:hover {
+  color: black !important;
+  background-color: whitesmoke !important;
+}
