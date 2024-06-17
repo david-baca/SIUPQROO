@@ -4,6 +4,8 @@ import Login from './pages/Login';
 import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 import Home from './pages/Home.tsx';
 import './App.css';
+import About from './pages/About.tsx';
+import ExportExcel from './pages/ExportExcel.tsx';
 
 const router = createBrowserRouter([
   {
@@ -13,7 +15,15 @@ const router = createBrowserRouter([
   {
     path: '/Home',
     element: <PrivateRoute component={Home} />
-  }
+  },
+  {
+    path: '/About',
+    element: <About/>
+  },
+  {
+    path: '/Excel',
+    element: <ExportExcel />
+  },
 ]);
 
 interface PrivateRouteProps {

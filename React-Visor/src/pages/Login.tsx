@@ -33,9 +33,9 @@ function Login() {
     }
   };
 
-  const handleLogout = () => {
-    auth.logout();
-  };
+  // const handleLogout = () => {
+  //   auth.logout();
+  // };
 
   return (
     <div className="login-container">
