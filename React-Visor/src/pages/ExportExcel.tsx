@@ -1,8 +1,6 @@
-// ./src/pages/ExportExcel.tsx
-//import { useState } from 'react'
 import * as XLSX from 'xlsx'
 import { Link } from 'react-router-dom';
-
+import '../styles/input.css'
 const ExportExcel = () => {
   const exportToExcel = () => {
     const data = [

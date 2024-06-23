@@ -1,23 +1,18 @@
-//import { useState } from 'react'
-import { toast } from 'react-toastify'
+import '../assets/styles/Home.css';
 import { Link } from 'react-router-dom';
-import "../styles/index.css"
 
 const Home = () => {
-    //variables de pagina -ejemplo
-  //const [count, setCount] = useState(0)
-
   return (
     <>
       <div className="container flex justify-center">
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Home
+        <Link to="/Home">Home</Link>
         </button>
         <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-          <Link to="/about">About</Link>
+          <Link to="/About">About</Link>
         </button>
         <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-          <Link to="/excel">Excel</Link>
+          <Link to="/Excel">Excel</Link>
         </button>
       </div>
       <div>
