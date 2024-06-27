@@ -1,33 +1,14 @@
 import { ComponentType, useEffect } from 'react';
-import { createBrowserRouter, RouterProvider, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
-import { AuthProvider, useAuth } from './context/AuthContext.jsx';
-import Home from './pages/Home.tsx';
+import { AuthProvider, useAuth } from './context/AuthContext.js';
+import Home from '../src/pages/home.tsx';
 import './App.css';
 import About from './pages/About.tsx';
 import ExportExcel from './pages/ExportExcel.tsx';
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Login />
-  },
-  {
-    path: '/Home',
-    element: <PrivateRoute component={Home} />
-  },
-  {
-    path: '/About',
-    element: <About/>
-  },
-  {
-    path: '/Excel',
-    element: <ExportExcel />
-  },
-]);
-
 interface PrivateRouteProps {
-  component: ComponentType<any>; 
+  component: ComponentType<any>;
 }
 
 function PrivateRoute({ component: Component, ...rest }: PrivateRouteProps) {
@@ -35,6 +16,11 @@ function PrivateRoute({ component: Component, ...rest }: PrivateRouteProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!auth) {
+      navigate('/');
+      return;
+    }
+
     if (!auth.user) {
       navigate('/');
     } else {
@@ -47,10 +33,10 @@ function PrivateRoute({ component: Component, ...rest }: PrivateRouteProps) {
         navigate('/');
       }
     }
-  }, [auth.user, navigate, auth.logout]);
+  }, [auth, navigate]);
 
-  if (!auth.user) {
-    return null; 
+  if (!auth || !auth.user) {
+    return null;
   }
 
   return <Component {...rest} />;
@@ -59,7 +45,14 @@ function PrivateRoute({ component: Component, ...rest }: PrivateRouteProps) {
 function App() {
   return (
     <AuthProvider>
-      <RouterProvider router={router} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/Home" element={<PrivateRoute component={Home} />} />
+          <Route path="/About" element={<About />} />
+          <Route path="/Excel" element={<ExportExcel />} />
+        </Routes>
+      </BrowserRouter>
     </AuthProvider>
   );
 }
