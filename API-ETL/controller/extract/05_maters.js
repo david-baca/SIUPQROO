@@ -1,12 +1,14 @@
 const { Dbf } = require('dbf-reader');
 const fs = require('fs');
 const Materias = require('../../model/Materias');
+const path = require('path');
 
 // Función principal para el proceso de extracción de grupos
 async function procesarMaterias() {
     try {
         // Leer archivo DBF
-        const registrosDBF = await leerDBF('../../DBF/DMATER.dbf');
+        const filePath = path.resolve(__dirname, '../../DBF/DMATER.DBF');
+        const registrosDBF = await leerDBF(filePath);
         // Variable de iteración
         
         console.log(registrosDBF)

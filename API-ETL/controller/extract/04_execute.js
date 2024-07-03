@@ -20,7 +20,4 @@ async function procesarExecute() {
     }
 }
 
-// Llamar a la función para ejecutar todos los procesos
-procesarExecute()
-    .then(() => console.log('Proceso global completado'))
-    .catch(error => console.error('Error en el proceso global:', error));
+module.exports = procesarExecute; 

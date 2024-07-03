@@ -1,5 +1,6 @@
 const { Dbf } = require('dbf-reader');
 const fs = require('fs');
+const path = require('path');
 const Periodo = require('../../model/Periodo');
 const Alumnos = require('../../model/Alumnos');
 const Meterias = require('../../model/Materias');
@@ -10,7 +11,8 @@ const ListCalif = require('../../model/ListCalif');
 async function procesarListCalif() {
     try {
         // Leer archivo DBF
-        const registrosDLISTA = await leerDBF('../../DBF/DLISTA.dbf');
+        const filePath = path.resolve(__dirname, '../../DBF/DLISTA.DBF');
+        const registrosDLISTA = await leerDBF(filePath);
         // Variable de iteración
         for (let i = 0; i < registrosDLISTA.length; i++) {
             const registro = registrosDLISTA[i];
@@ -92,7 +94,4 @@ async function leerDBF(filePath) {
     }
 }
 
-// Ejecutar el proceso
-procesarListCalif()
-     .then(() => console.log('Proceso completado'))
-     .catch(error => console.error('Error en el proceso principal:', error));
+module.exports = procesarListCalif; 

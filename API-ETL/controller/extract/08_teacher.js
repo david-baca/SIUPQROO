@@ -1,12 +1,14 @@
 const { Dbf } = require('dbf-reader');
 const fs = require('fs');
 const Profesores = require('../../model/Profesores');
+const path = require('path');
 
 // Función principal para el proceso de extracción de grupos
 async function procesarProfesores() {
     try {
         // Leer archivo DBF
-        const registrosDBF = await leerDBF('../../DBF/DPERSO.dbf');
+        const filePath = path.resolve(__dirname, '../../DBF/DPERSO.DBF');
+        const registrosDBF = await leerDBF(filePath);
         // Variable de iteración
         for (let i = 0; i < registrosDBF.length; i++) {
             const registro = registrosDBF[i];

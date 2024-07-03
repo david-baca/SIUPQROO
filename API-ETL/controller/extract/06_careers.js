@@ -1,12 +1,14 @@
 const { Dbf } = require('dbf-reader');
 const fs = require('fs');
 const Carreras = require('../../model/Carreras');
+const path = require('path');
 
 // Función principal para el proceso de extracción de grupos
 async function procesarCarreras(){
     try {
         // Leer archivo DBF
-        const registrosDBF = await leerDBF('../../DBF/DPLANE.dbf');
+        const filePath = path.resolve(__dirname, '../../DBF/DPLANE.DBF');
+        const registrosDBF = await leerDBF(filePath);
         // Variable de iteración
         for (let i = 0; i < registrosDBF.length; i++) {
             const registro = registrosDBF[i];

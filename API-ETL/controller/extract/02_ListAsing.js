@@ -1,5 +1,6 @@
 const { Dbf } = require('dbf-reader');
 const fs = require('fs');
+const path = require('path');
 const Periodos = require('../../model/Periodo');
 const Carreras = require('../../model/Carreras');
 const Profesores = require('../../model/Profesores');
@@ -10,7 +11,8 @@ const ListAsing = require('../../model/ListAsing');
 async function procesarList_Asing() {
     try {
         // Leer archivo DBF
-        const registrosDGRUPO = await leerDBF('../../DBF/DGRUPO.dbf');
+        const filePath = path.resolve(__dirname, '../../DBF/DGRUPO.DBF');
+        const registrosDGRUPO = await leerDBF(filePath);
         // Variable de iteración
         for (let i = 0; i < registrosDGRUPO.length; i++) {
             const registro = registrosDGRUPO[i];
@@ -85,7 +87,4 @@ async function leerDBF(filePath) {
     }
 }
 
-// Ejecutar el proceso
-procesarList_Asing()
-     .then(() => console.log('Proceso completado'))
-     .catch(error => console.error('Error en el proceso principal:', error));
+module.exports = procesarList_Asing;
