@@ -1,32 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const userRoutes = require('./routes/userRoutes');
+const router = require('./view/userRoutes');
 const sequelize = require('./config/database');
-const fs = require('fs');
-const path = require('path');
 const app = express();
 app.use(bodyParser.json());
-app.use('/api', userRoutes);
+app.use('/api', router);
+
 // Sincronización y creación de la base de datos si no existe
 sequelize.sync({ force: false })
     .then(() => {
         console.log('Base de datos sincronizada');
     })
     .catch(async (error) => {
-        console.error('Error al sincronizar la base de datos:', error);
-        
-        // Si hay un error, intentar ejecutar el script create.sql para crear la base de datos
-        const createScriptPath = path.join(__dirname, 'siupqroo.sql');
-        try {
-            if (fs.existsSync(createScriptPath)) {
-                const createScript = fs.readFileSync(createScriptPath, 'utf8');
-                await sequelize.query(createScript);
-                console.log('Base de datos creada utilizando el script create.sql');
-            } else {
-                console.error('No se encontró el script create.sql en el directorio actual.');
-            }
-        } catch (error) {
-            console.error('Error al ejecutar el script create.sql:', error);
-        }
+        console.error("Error al sincronizar la base de datos:\n"+
+        "Porfavor asegurese de que su gestor de base de datos este correndo o que exista la base de datos siupqroo ");
+        process.exit(1);
     });
+//const initializeApp = require('./config/initialize'); inicializador de creacion de base de datos
+//initializeApp() elemento aun no funcional
 module.exports = app;

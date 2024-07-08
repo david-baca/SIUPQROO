@@ -1,1 +1,1 @@
-npm install express dbf-reader moment sequelize mysql2 body-parser
+npm install express dbf-reader moment sequelize mysql2 body-parser multer

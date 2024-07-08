@@ -1,7 +1,7 @@
-const { Dbf } = require('dbf-reader');
-const fs = require('fs');
 const path = require('path');
+const fs = require('fs');
 const Periodos = require('../../model/Periodo');
+const leerDBF = require('./leerDBF');
 
 // Función principal para procesar periodos
 const procesarPeriodos = async (request) => {
@@ -36,7 +36,8 @@ const procesarPeriodos = async (request) => {
 
         if (request.length === 0) {
             for (let periodo of periodosEncontrados) {
-                await agregarPeriodoDB(periodo.codigoPeriodo, periodo.fechaFinPeriodo, periodo.periodo);
+                await Periodos.create({pk: periodo.codigoPeriodo,fecha_fin: periodo.
+                    fechaFinPeriodo,Periodo: periodo.periodo});
             }
             return {
                 estado: true,
@@ -52,7 +53,8 @@ const procesarPeriodos = async (request) => {
                 };
             } else {
                 for (let periodo of periodosEncontrados) {
-                    await agregarPeriodoDB(periodo.codigoPeriodo, periodo.fechaFinPeriodo, periodo.periodo);
+                    await Periodos.create({pk: periodo.codigoPeriodo,fecha_fin: periodo.
+                        fechaFinPeriodo,Periodo: periodo.periodo});
                 }
                 return {
                     estado: true,
@@ -62,7 +64,6 @@ const procesarPeriodos = async (request) => {
             }
         }
     } catch (error) {
-        console.error('Error en el proceso:', error);
         return {
             estado: false,
             mensaje: "Error en el proceso",
@@ -70,41 +71,5 @@ const procesarPeriodos = async (request) => {
         };
     }
 };
-// Función para leer archivo DBF usando dbf-reader
-async function leerDBF(filePath) {
-    try {
-        const buffer = fs.readFileSync(filePath);
-        const datatable = Dbf.read(buffer);
-        return datatable.rows.map(row => {
-            const registro = {};
-            datatable.columns.forEach(col => {
-                if (row[col.name] instanceof Date) {
-                    const date = new Date(row[col.name]);
-                    date.setMonth(date.getMonth() - 1);
-                    registro[col.name] = date;
-                } else {
-                    registro[col.name] = row[col.name];
-                }
-            });
-            return registro;
-        });
-    } catch (error) {
-        throw new Error('Error al leer el archivo DBF: ' + error.message);
-    }
-}
-
-// Función para agregar periodo a la base de datos
-async function agregarPeriodoDB(codigoPeriodo, fechaFinPeriodo, periodo) {
-    try {
-        await Periodos.create({
-            pk: codigoPeriodo,
-            fecha_fin: fechaFinPeriodo,
-            Periodo: periodo
-        });
-        console.log(`Agregando periodo ${codigoPeriodo} con fecha fin ${fechaFinPeriodo}`);
-    } catch (error) {
-        console.error('Error al agregar periodo a la base de datos:', error);
-    }
-}
 
 module.exports = procesarPeriodos;

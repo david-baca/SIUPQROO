@@ -11,6 +11,3 @@ async function validarArchivos() {
     return { estado: true, mensaje: 'Todos los archivos DBF están presentes.' };
 } 
 module.exports = validarArchivos;
-// validarArchivos()    
-//     .then(resultado => console.log(resultado))
-//     .catch(error => console.error('Error en el proceso principal:', error));
