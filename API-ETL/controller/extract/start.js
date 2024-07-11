@@ -5,15 +5,21 @@ const writeEstado = require('./escribirEstados');
 
 async function iniciar() {
     try {
+        console.log(`primera parte`);
         await procesarList_Asing()
-        writeEstado(`general.txt`, `CORECTO fase 1 de extraccion de asignaciones`);
+        await writeEstado(`general.txt`, `CORECTO fase 1 de extraccion de asignaciones`);
+        console.log(`fin de primera parte`);
+        console.log(`segunda parte`);
         await procesarListCalif()
-        writeEstado(`general.txt`, `CORECTO fase 2 de extraccion de calificaciones`);
+        await writeEstado(`general.txt`, `CORECTO fase 2 de extraccion de calificaciones`);
+        console.log(`fin de segunda parte`);
+        console.log(`tercera parte`);
         await procesarExecute()
-        writeEstado(`general.txt`, `CORECTO fase 3 de extraccion de datos en genal`);
-        writeEstado(`general.txt`, `FIN DEL LA EXTRACCION`)
+        await writeEstado(`general.txt`, `CORECTO fase 3 de extraccion de datos en genal`);
+        await writeEstado(`general.txt`, `FIN DEL LA EXTRACCION`)
+        console.log(`fin del proceso`);
     } catch (error) {
-        writeEstado(`general.txt`, `FALLO EN LA EXTRACCION`);
+        await writeEstado(`general.txt`, `FALLO EN LA EXTRACCION`);
     }
 }
 

@@ -1,9 +1,15 @@
-const validaciones = require('./extract/00_validation');
-const procesarPeriodos = require('./extract/01_period');
+const validaciones = require('../extract/00_validation');
+const procesarPeriodos = require('../extract/01_period');
 const { exec } = require('child_process');
+const fs = require('fs');
+const patCarpEst = path.resolve(__dirname, '../../estado');
 // extracción de datos
 exports.getRegistersDBF = async (req, res) => {
     try {
+        //condicional de carga previa
+        if (fs.existsSync(patCarpEst)) {
+            return res.status(400).json({ estado: false, mensaje: 'Ya se ha realizado una carga de datos. limpie los datos antes de volver a cargar' });
+        }
         // Obtener las fechas del body
         const { fecha1, fecha2, fecha3, fecha4 } = req.body;
         // Convertir las fechas a instancias de Date

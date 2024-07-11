@@ -1,10 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const router = require('./view/userRoutes');
+const routerDBF = require('./view/dbfRoutes');
 const sequelize = require('./config/database');
 const app = express();
 app.use(bodyParser.json());
-app.use('/api', router);
+app.use('/dbf', routerDBF);
 
 // Sincronización y creación de la base de datos si no existe
 sequelize.sync({ force: false })
