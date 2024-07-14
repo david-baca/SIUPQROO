@@ -1,46 +1,13 @@
-import { ComponentType, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import Login from './pages/Login';
-import { AuthProvider, useAuth } from './context/AuthContext.js';
-import Home from '../src/pages/home.tsx';
 import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider} from './context/AuthContext.js';
+
+import Login from './pages/Login';
+import Home from '../src/pages/home.tsx';
 import About from './pages/About.tsx';
 import ExportExcel from './pages/ExportExcel.tsx';
-
-interface PrivateRouteProps {
-  component: ComponentType<any>;
-}
-
-function PrivateRoute({ component: Component, ...rest }: PrivateRouteProps) {
-  const auth = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!auth) {
-      navigate('/');
-      return;
-    }
-
-    if (!auth.user) {
-      navigate('/');
-    } else {
-      const { email } = auth.user || {};
-      const arrayResults = email.split('@');
-
-      if (arrayResults[1] !== 'upqroo.edu.mx') {
-        console.log('No eres estudiante');
-        auth.logout();
-        navigate('/');
-      }
-    }
-  }, [auth, navigate]);
-
-  if (!auth || !auth.user) {
-    return null;
-  }
-
-  return <Component {...rest} />;
-}
+import SecretarioAcademico from './pages/SecretarioAcademico.tsx';
+import PrivateRoute from './components/PrivateRoute.tsx';
 
 function App() {
   return (
@@ -49,8 +16,15 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/Home" element={<PrivateRoute component={Home} />} />
-          <Route path="/About" element={<About />} />
-          <Route path="/Excel" element={<ExportExcel />} />
+          <Route path="/About" element={<PrivateRoute component={About} />} />
+          <Route
+            path="/Excel"
+            element={<PrivateRoute component={ExportExcel} />}
+          />
+          <Route
+            path="/DesempenoEscolar"
+            element={<PrivateRoute component={SecretarioAcademico} />}
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

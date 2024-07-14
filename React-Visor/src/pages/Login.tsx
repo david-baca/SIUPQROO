@@ -3,12 +3,15 @@ import { Button, Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import '../assets/styles/Login.css';
+import LogoUPQROO from '../../public/logoUPQROO.png';
+
 import { useAuth } from '../context/AuthContext.js';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function Login() {
   const auth = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleGoogle = async (e: any) => {
     e.preventDefault();
@@ -31,7 +34,8 @@ function Login() {
         console.log('No eres estudiante');
         await auth.logout();
       } else {
-        navigate('/Home');
+        const from = location.state?.from?.pathname || '/Home';
+        navigate(from);
         console.log('Bienvenido');
       }
     } catch (error) {
@@ -63,15 +67,11 @@ function Login() {
           }}>
           <img
             className="logoLogin"
-            src="./public/logoUPQROO.png"
+            src={LogoUPQROO}
             alt="Logo UPQROO"
             style={{ padding: '15px' }}
           />
-          <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            >
+          <Grid container direction="row" justifyContent="center">
             <Grid item xs={10}>
               <h2>Iniciar Sesión</h2>
               <a>Con una cuenta institucional(@upqroo.edu.mx)</a>
