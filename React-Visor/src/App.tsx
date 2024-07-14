@@ -2,46 +2,19 @@ import { ComponentType, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
 import { AuthProvider, useAuth } from './context/AuthContext.js';
-import Home from '../src/pages/home.tsx';
+import HomeAdmin from './pages/homeAdmin.tsx';
+import HomeDirectCar from './pages/HomeDirectCar.tsx';
+import HomeSecrAcad from './pages/HomeSecrAcad.tsx';
 import './App.css';
 import About from './pages/About.tsx';
 import ExportExcel from './pages/ExportExcel.tsx';
 import DeleteDataView from './pages/DeleteData.tsx';
-
-interface PrivateRouteProps {
-  component: ComponentType<any>;
-}
-
-function PrivateRoute({ component: Component, ...rest }: PrivateRouteProps) {
-  const auth = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!auth) {
-      navigate('/');
-      return;
-    }
-
-    if (!auth.user) {
-      navigate('/');
-    } else {
-      const { email } = auth.user || {};
-      const arrayResults = email.split('@');
-
-      if (arrayResults[1] !== 'upqroo.edu.mx') {
-        console.log('No eres estudiante');
-        auth.logout();
-        navigate('/');
-      }
-    }
-  }, [auth, navigate]);
-
-  if (!auth || !auth.user) {
-    return null;
-  }
-
-  return <Component {...rest} />;
-}
+import Estatus from './pages/Estatus.tsx';
+import CargaPeriodos from './pages/CargaPeriodos.tsx';
+import CargarDatos from './pages/CargarDatos.tsx';
+import PrivateRoute from './componets/privatereoute.tsx';
+import DesempenoEscolar from './pages/desempleno.tsx';
+import HomeSecretAcad from './pages/HomeSecrAcad.tsx';
 
 function App() {
   return (
@@ -49,10 +22,16 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/Home" element={<PrivateRoute component={Home} />} />
+          <Route path="/HomeDirectCarr" element={<HomeDirectCar/>} />
+          <Route path="/HomeSecretAcad" element={<HomeSecretAcad/>} />
+          <Route path="/HomeAdmin" element={<HomeAdmin/>} />
           <Route path="/About" element={<About />} />
           <Route path="/Excel" element={<ExportExcel />} />
           <Route path="/DeleteData" element={<DeleteDataView />}></Route>
+          <Route path="/Estatus" element={<Estatus />} />
+          <Route path="/CargaPeriodos" element={<CargaPeriodos />} />
+          <Route path="/CargarDatos" element={<CargarDatos />} />
+          <Route path="/DesempenoEscolar" element={<DesempenoEscolar userType='alumno' />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
