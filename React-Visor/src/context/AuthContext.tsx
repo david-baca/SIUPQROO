@@ -1,13 +1,20 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 import { auth } from '../firebase/firebase.config';
 import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  UserCredential
 } from 'firebase/auth';
 
-export const authContext = createContext();
+interface AuthContextType {
+  user: any;
+  loginWithGoogle: () => Promise<UserCredential>;
+  logout: () => Promise<void>;
+}
+
+const authContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
   const context = useContext(authContext);
@@ -17,8 +24,12 @@ export const useAuth = () => {
   return context;
 };
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export function AuthProvider({ children }: AuthProviderProps) {
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     const subscribed = onAuthStateChanged(auth, (currentUser) => {
@@ -27,12 +38,12 @@ export function AuthProvider({ children }) {
     return () => subscribed();
   }, []);
 
-  const loginWithGoogle = async () => {
+  const loginWithGoogle = async (): Promise<UserCredential> => {
     const responseGoogle = new GoogleAuthProvider();
     return await signInWithPopup(auth, responseGoogle);
   };
 
-  const logout = async () => {
+  const logout = async (): Promise<void> => {
     await signOut(auth);
     setUser(null); 
   };

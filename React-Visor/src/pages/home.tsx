@@ -1,25 +1,67 @@
-import '../assets/styles/Home.css';
+import { Button, Container, ListItem, Stack } from '@mui/material';
 import { Link } from 'react-router-dom';
+import '../assets/styles/Home.css';
 
 const Home = () => {
   return (
     <>
-      <div className="container flex justify-center">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        <Link to="/Home">Home</Link>
-        </button>
-        <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-          <Link to="/About">About</Link>
-        </button>
-        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-          <Link to="/Excel">Excel</Link>
-        </button>
-      </div>
-      <div>
-        <h1>bienvenido a home</h1>
-      </div>
+      <Container maxWidth="sm">
+        <Stack direction="row" spacing={2}>
+          <ListItem>
+            <Button
+              component={Link}
+              to="/Home"
+              variant="contained"
+              sx={{
+                backgroundColor: 'blue',
+                '&:hover': { backgroundColor: 'darkblue' },
+                color: 'white',
+                fontWeight: 'bold',
+                py: 1,
+                px: 4,
+                borderRadius: 1
+              }}>
+              Home
+            </Button>
+          </ListItem>
+          <ListItem>
+            <Button
+              component={Link}
+              to="/About"
+              variant="contained"
+              sx={{
+                backgroundColor: 'red',
+                '&:hover': { backgroundColor: 'darkred' },
+                color: 'white',
+                fontWeight: 'bold',
+                py: 1,
+                px: 4,
+                borderRadius: 1
+              }}>
+              About
+            </Button>
+          </ListItem>
+          <ListItem>
+            <Button
+              component={Link}
+              to="/Excel"
+              variant="contained"
+              sx={{
+                backgroundColor: 'green',
+                '&:hover': { backgroundColor: 'darkgreen' },
+                color: 'white',
+                fontWeight: 'bold',
+                py: 1,
+                px: 4,
+                borderRadius: 1
+              }}>
+              Excel
+            </Button>
+          </ListItem>
+        </Stack>
+      </Container>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

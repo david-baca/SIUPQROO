@@ -3,7 +3,7 @@ import { Button, Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import '../assets/styles/Login.css';
-import { useAuth } from '../context/AuthContext.jsx';
+import { useAuth } from '../context/AuthContext.js';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
@@ -12,18 +12,24 @@ function Login() {
 
   const handleGoogle = async (e: any) => {
     e.preventDefault();
+
+    if (!auth) {
+      console.error('Auth context is not available');
+      return;
+    }
+
     try {
       await auth.loginWithGoogle();
 
       const { email } = auth.user || {};
 
-      if (!email) return [];
+      if (!email) return;
 
       const arrayResults = email.split('@');
 
       if (arrayResults[1] !== 'upqroo.edu.mx') {
         console.log('No eres estudiante');
-        auth.logout();
+        await auth.logout();
       } else {
         navigate('/Home');
         console.log('Bienvenido');
@@ -32,10 +38,6 @@ function Login() {
       console.error('Error during login:', error);
     }
   };
-
-  // const handleLogout = () => {
-  //   auth.logout();
-  // };
 
   return (
     <div className="login-container">
@@ -69,11 +71,11 @@ function Login() {
             container
             direction="row"
             justifyContent="center"
-            alignItems="center">
-            <Grid item xs={10} md={10}>
+            >
+            <Grid item xs={10}>
               <h2>Iniciar Sesión</h2>
+              <a>Con una cuenta institucional(@upqroo.edu.mx)</a>
             </Grid>
-            <a>Con una cuenta institucional(@upqroo.edu.mx)</a>
           </Grid>
 
           <Grid
@@ -90,14 +92,6 @@ function Login() {
                 Iniciar sesión Google
               </Button>
             </Grid>
-            {/* <Grid item xs={10} md={10}>
-              <Button
-                variant="contained"
-                style={{ width: '100%' }}
-                onClick={() => handleLogout()}>
-                Logout
-              </Button>
-            </Grid> */}
           </Grid>
         </Paper>
       </Box>
