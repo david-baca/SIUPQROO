@@ -1,11 +1,13 @@
 const express = require('express');
-const dbfController = require('../controller/dbfContraller');
-const extractController = require('../controller/extractionContraller');
+const loadDBFContraller = require('../controller/DBF/loadDBF');
+const extractionDBFContraller = require('../controller/DBF/extractionDBF');
+const deleteDBFContraller = require('../controller/DBF/deleteDBF');
 
-const router = express.Router();
-
+const routerUser = express.Router();
 // POST /api/dbf/upload
-router.post('/upload', dbfController.upload, dbfController.uploadDBF);
-router.post('/extract', extractController.getRegistersDBF);
+routerUser.post('/create', loadDBFContraller.load, loadDBFContraller.loadDBF);
+routerUser.get('/read', loadDBFContraller.load, loadDBFContraller.loadDBF);
+routerUser.put('/update', loadDBFContraller.load, loadDBFContraller.loadDBF);
+routerUser.delete('/delete', loadDBFContraller.load, loadDBFContraller.loadDBF);
 
-module.exports = router;
+module.exports = routerUser;
