@@ -1,11 +1,4 @@
 /* Global styles or specific to Login */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-}
-
 .center {
   text-align: center;
 }

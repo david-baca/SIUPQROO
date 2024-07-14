@@ -24,6 +24,7 @@ const Home = () => {
               Home
             </Button>
           </ListItem>
+
           <ListItem>
             <Button
               component={Link}
@@ -56,6 +57,23 @@ const Home = () => {
                 borderRadius: 1
               }}>
               Excel
+            </Button>
+          </ListItem>
+          <ListItem>
+            <Button
+              component={Link}
+              to="/DesempenoEscolar"
+              variant="contained"
+              sx={{
+                backgroundColor: 'blue',
+                '&:hover': { backgroundColor: 'darkblue' },
+                color: 'white',
+                fontWeight: 'bold',
+                py: 1,
+                px: 4,
+                borderRadius: 1
+              }}>
+              Desempeño escolar
             </Button>
           </ListItem>
         </Stack>
