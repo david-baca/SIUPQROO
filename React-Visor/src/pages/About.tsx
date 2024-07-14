@@ -1,10 +1,6 @@
-//import { useState } from 'react'
 import { Link } from 'react-router-dom';
 
 const About = () => {
-    //variables de pagina -ejemplo
-  //const [count, setCount] = useState(0)
-
   return (
     <>
       <div className="container flex justify-center">
