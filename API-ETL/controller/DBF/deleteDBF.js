@@ -22,7 +22,6 @@ exports.deleteDBF = async (req, res) => {
     await ListCalif.destroy({ where: {}, transaction }),
     await Grupos.destroy({ where: {}, transaction }),
     await Alumnos.destroy({ where: {}, transaction }),
-    await Carreras.destroy({ where: {}, transaction }),
     await Materias.destroy({ where: {}, transaction }),
     await Periodo.destroy({ where: {}, transaction }),
     await Profesores.destroy({ where: {}, transaction })

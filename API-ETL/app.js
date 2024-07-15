@@ -1,12 +1,23 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const routerDBF = require('./view/dbfRoutes');
+const routerUser = require('./view/userRoutes');
+const routerCarrera = require('./view/carreraRoute');
 const sequelize = require('./config/database');
 const app = express();
-app.use(bodyParser.json());
+// Configuración básica de CORS para permitir todas las solicitudes
+app.use(cors({
+    origin: 'http://localhost:3700', // Permitir solicitudes solo desde este dominio
+    methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT'], // Métodos HTTP permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos en las solicitudes
+  }));
+app.use(bodyParser.json()); 
 app.use('/dbf', routerDBF);
+app.use('/user', routerUser);
+app.use('/carrera', routerCarrera);
 
-// Sincronización y creación de la base de datos si no existe
+// Sincronización y creación de la base de datos si no existe  
 sequelize.sync({ force: false })
     .then(() => {
         console.log('Base de datos sincronizada');

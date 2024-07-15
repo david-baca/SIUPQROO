@@ -2,6 +2,7 @@ const validaciones = require('../extract/00_validation');
 const procesarPeriodos = require('../extract/01_period');
 const { exec } = require('child_process');
 const fs = require('fs');
+const path = require('path');
 const patCarpEst = path.resolve(__dirname, '../../estado');
 // extracción de datos
 exports.getRegistersDBF = async (req, res) => {
