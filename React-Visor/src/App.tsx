@@ -15,6 +15,7 @@ import CargarDatos from './pages/CargarDatos.tsx';
 import PrivateRoute from './componets/privatereoute.tsx';
 import DesempenoEscolar from './pages/desempleno.tsx';
 import HomeSecretAcad from './pages/HomeSecrAcad.tsx';
+import UserPermissionsView from './pages/UserPermissions.tsx';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/permison" element={<UserPermissionsView />} />
           <Route path="/HomeDirectCarr" element={<HomeDirectCar/>} />
           <Route path="/HomeSecretAcad" element={<HomeSecretAcad/>} />
           <Route path="/HomeAdmin" element={<HomeAdmin/>} />

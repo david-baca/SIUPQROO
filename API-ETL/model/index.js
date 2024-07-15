@@ -7,6 +7,10 @@ const Carreras = require('./Carreras');
 const Profesores = require('./Profesores');
 const ListCalif = require('./ListCalif');
 const ListAsing = require('./ListAsing');
+const Directores = require('./Directores');
+const Administradores = require('./Administradores');
+const SecretariosAcademicos = require('./SecretariosAcademicos');
+const Usuarios = require('./Usuarios');
 // Definir las asociaciones
 
 // Profesores -> ListAsing
@@ -87,6 +91,38 @@ ListCalif.belongsTo(Periodos, {
   as: 'Periodo'
 });
 
+Usuarios.hasMany(Directores, { 
+  foreignKey: 'fk_Usuario' 
+});
+
+Directores.belongsTo(Usuarios, { 
+  foreignKey: 'fk_Usuario' 
+});
+
+Carreras.hasMany(Directores, { 
+  foreignKey: 'fk_Carrera' 
+});
+
+Directores.belongsTo(Carreras, { 
+  foreignKey: 'fk_Carrera' 
+});
+
+Usuarios.hasMany(Administradores, { 
+  foreignKey: 'fk_Usuario' 
+});
+
+Administradores.belongsTo(Usuarios, { 
+  foreignKey: 'fk_Usuario' 
+});
+
+Usuarios.hasMany(SecretariosAcademicos, { 
+  foreignKey: 'fk_Usuario' 
+});
+
+SecretariosAcademicos.belongsTo(Usuarios, { 
+  foreignKey: 'fk_Usuario' 
+});
+
 module.exports = {
   sequelize,
   Grupos,
@@ -96,5 +132,9 @@ module.exports = {
   Carreras,
   Profesores,
   ListCalif,
-  ListAsing
+  ListAsing,
+  Usuarios,
+  Directores,
+  Administradores,
+  SecretariosAcademicos
 };

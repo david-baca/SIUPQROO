@@ -130,20 +130,48 @@ CREATE TABLE IF NOT EXISTS `SIUPQROO`.`List_Calif` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-CREATE TABLE IF NOT EXISTS `SIUPQROO`.`Roles` (
-  `pk` INT(11) NOT NULL,
-  `nombre` VARCHAR(45) NULL DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `SIUPQROO`.`Usuarios` (
+  `pk` INT(11) NOT NULL AUTO_INCREMENT,
+  `correo` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`pk`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-CREATE TABLE IF NOT EXISTS `SIUPQROO`.`Usuarios` (
-  `correo` VARCHAR(100) NULL DEFAULT NULL,
-  `Usuarios_pk` INT(11) NOT NULL,
-  INDEX `fk_Roles_Usuarios_copy11_idx` (`Usuarios_pk` ASC),
-  CONSTRAINT `fk_Roles_Usuarios_copy11`
-    FOREIGN KEY (`Usuarios_pk`)
-    REFERENCES `SIUPQROO`.`Roles` (`pk`)
+CREATE TABLE IF NOT EXISTS `SIUPQROO`.`Directores` (
+  `fk_Usuario` INT(11) NOT NULL UNIQUE,
+  `fk_Carrera` INT(11) NOT NULL,
+  INDEX `fk_Usuario_Directores_idx` (`fk_Usuario` ASC),
+  INDEX `fk_Carrera_Directores_idx` (`fk_Carrera` ASC),
+  CONSTRAINT `fk_Usuario_Directores`
+    FOREIGN KEY (`fk_Usuario`)
+    REFERENCES `SIUPQROO`.`Usuarios` (`pk`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Carrera_Directores`
+    FOREIGN KEY (`fk_Carrera`)
+    REFERENCES `SIUPQROO`.`Carreras` (`pk`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+CREATE TABLE IF NOT EXISTS `SIUPQROO`.`Administradores` (
+  `fk_Usuario` INT(11) NOT NULL UNIQUE,
+  INDEX `fk_Usuario_Administradores_idx` (`fk_Usuario` ASC),
+  CONSTRAINT `fk_Usuario_Administradores`
+    FOREIGN KEY (`fk_Usuario`)
+    REFERENCES `SIUPQROO`.`Usuarios` (`pk`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+CREATE TABLE IF NOT EXISTS `SIUPQROO`.`SecretariosAcademicos` (
+  `fk_Usuario` INT(11) NOT NULL UNIQUE,
+  INDEX `fk_Usuario_SecretariosAcademicos_idx` (`fk_Usuario` ASC),
+  CONSTRAINT `fk_Usuario_SecretariosAcademicos`
+    FOREIGN KEY (`fk_Usuario`)
+    REFERENCES `SIUPQROO`.`Usuarios` (`pk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
