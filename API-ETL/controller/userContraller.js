@@ -35,6 +35,19 @@ exports.getUserById = async (req, res) => {
     }
 };
 
+exports.getUserByCorreo = async (req, res) => {
+    try {
+        const user = await Usuarios.findOne({ where: { correo: req.params.correo } });
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 exports.updateUser = async (req, res) => {
     try {
         const user = await Usuarios.findByPk(req.params.id);
