@@ -6,6 +6,7 @@ const routerUser = express.Router();
 routerUser.post('/create', userController.createUser);
 routerUser.get('/read', userController.getAllUsers);
 routerUser.get('/read/:id', userController.getUserById);
+routerUser.get('/read/email/:correo', userController.getUserByCorreo);
 routerUser.put('/update/:id', userController.updateUser);  // Corrige la ruta para incluir el ID del usuario
 routerUser.delete('/delete/:id', userController.deleteUser);  // Corrige la ruta para incluir el ID del usuario
 
