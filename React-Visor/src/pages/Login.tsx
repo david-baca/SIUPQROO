@@ -31,7 +31,9 @@ function Login() {
       if (!email) return;
 
       try {
-        const response: AxiosResponse<User> = await axios.get(`/users/email/${email}`);
+        const response: AxiosResponse<User> = await axios.get(`/user/read/email/${email}`);
+
+        console.log(response)
 
         if (response.status === 200) {
           navigate('/Home');
