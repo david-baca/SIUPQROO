@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import GoogleIcon from '@mui/icons-material/Google'; // Si prefieres, puedes usar una librería de iconos compatible con Tailwind
 import LogoUPQROO from '../../public/logoUPQROO.png';
 import fondoUPQROO from '../../public/LogoCafe.jpg';
-import axios, { AxiosResponse } from 'axios';
+import instance from '../api/axios.js';
+import { AxiosResponse } from 'axios';
 
 interface User {
   pk: number;
@@ -31,7 +32,7 @@ function Login() {
       if (!email) return;
 
       try {
-        const response: AxiosResponse<User> = await axios.get(`/user/read/email/${email}`);
+        const response: AxiosResponse<User> = await instance.get(`/user/read/email/${email}`);
 
         console.log(response)
 
