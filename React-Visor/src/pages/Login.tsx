@@ -3,10 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import GoogleIcon from '@mui/icons-material/Google'; // Si prefieres, puedes usar una librería de iconos compatible con Tailwind
 import LogoUPQROO from '../../public/logoUPQROO.png';
 import fondoUPQROO from '../../public/LogoCafe.jpg';
+import instance from '../api/axios.js';
+import { saveToLocalStorage, getFromLocalStorage } from "../context/Credentials.js"
+import { useEffect } from 'react';
 
 function Login() {
   const auth = useAuth();
   const navigate = useNavigate();
+  const local = getFromLocalStorage();
+
+  function validation(){
+    if (local != null && local.rol == "director") {navigate('/HomeDirectCarr')}
+    if (local != null && local.rol == "secretario") {navigate('/HomeSecretAcad')}
+    if (local != null && local.rol == "administrador") {navigate('/HomeAdmin');}
+  }
+  useEffect(() => {
+    validation()
+  }, []);
 
   const handleGoogle = async (e: any) => {
     e.preventDefault();
@@ -23,19 +36,26 @@ function Login() {
 
       if (!email) return;
 
-      const arrayResults = email.split('@');
+      try {
+        const response = await instance.get(`/user/read/email/${email}`);
 
-      if (arrayResults[1] !== 'upqroo.edu.mx') {
-        console.log('No eres estudiante');
-        await auth.logout();
-      } else {
-        navigate('/Home');
-        console.log('Bienvenido');
+        if (response.status === 200) {
+          saveToLocalStorage(response.data)
+          navigate(0);
+        }
+      } catch (error: any) {
+        if (error.response && error.response.status === 404) {
+          await auth.logout();
+        } else {
+          console.error('Error during login:', error);
+        }
       }
+
     } catch (error) {
       console.error('Error during login:', error);
     }
   };
+
 
   return (
     <div className="relative flex items-center justify-center min-h-screen">
