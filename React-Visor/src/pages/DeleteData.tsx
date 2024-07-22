@@ -1,8 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InterfaceModel from './interfaceModel';
 import { useNavigate } from 'react-router-dom';
+import axios from '../api/axios.js';
+import img from '../../public/image3.png';
 
-const DeleteDataView = () => {
+export const DeleteDataView = () => {
+    const [estado, setestado] = useState(0);
+    const validar = async () => {
+        try {
+            const response = await axios.get(`/check/estado`);
+            if(response.data.mensaje == "Terminado"){setestado(1)}
+            setestado(2)
+        } catch (error) {
+        }
+    }
+    useEffect(() => {
+        validar();
+    },[]);
+
+    if (estado == 0) {return}
+    if (estado == 1) {return <Valid/>;}
+    if (estado == 2) {return <Invalid/>;}
+};
+
+export const Valid =() =>{
     const navigate = useNavigate();
 
     const handleNavigateHome = () => {
@@ -106,6 +127,36 @@ const DeleteDataView = () => {
         )}
     </>
     );
-};
+}
 
-export default DeleteDataView;
+export const Invalid =() =>{
+    const navigate = useNavigate();
+
+    const handleNavigateHome = () => {
+      navigate('/HomeAdmin');
+    };
+    return (
+    <>
+        <InterfaceModel
+            userType="Administrador"
+            titleSection="Eliminar datos guardados"
+            titleAction=""
+            subtitleAction=""
+            contenido={<>
+            <div className="flex flex-col items-center">
+                <h1 className='text-center font-bold text-xl'
+                >¡Ups! Parece que no hay datos cargados, no puedes eliminar. </h1>
+                <img className="w-[100%] md:w-[800px] h-auto" 
+                    src={img}
+                />
+            </div>
+            <div className="flex flex-col items-end">
+                <button onClick={handleNavigateHome} className='bg-[#ff8702] text-white p-1 px-5 rounded-3xl'>
+                    volver a la pagina anterior
+                </button>
+            </div>
+            </>}
+        />
+    </>
+    );
+}

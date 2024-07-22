@@ -4,7 +4,7 @@ import { AuthProvider } from './context/AuthContext.js';
 import HomeAdmin from './pages/homeAdmin.tsx';
 import HomeDirectCar from './pages/HomeDirectCar.tsx';
 import './App.css';
-import DeleteDataView from './pages/DeleteData.tsx';
+import {DeleteDataView} from './pages/DeleteData.tsx';
 import Estatus from './pages/Estatus.tsx';
 import CargaPeriodos from './pages/CargaPeriodos.tsx';
 import CargarDatos from './pages/CargarDatos.tsx';
