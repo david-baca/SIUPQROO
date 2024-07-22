@@ -37,9 +37,17 @@ exports.getUserById = async (req, res) => {
 
 exports.getUserByCorreo = async (req, res) => {
     try {
+        const request = {};
         const user = await Usuarios.findOne({ where: { correo: req.params.correo } });
         if (user) {
-            res.status(200).json(user);
+            const director = await Directores.findOne({where: { fk_Usuario : user.pk } })
+            const secre = await SecretariosAcademicos.findOne({where: { fk_Usuario : user.pk } })
+            const admin = await Administradores.findOne({where: { fk_Usuario : user.pk } })
+            request.user = user;
+            if(director){request.rol = "director"; request.fk_Carrera = director.fk_Carrera}
+            if(secre){request.rol = "secretario";}
+            if(admin){request.rol = "administrador";}
+            res.status(200).json(request);
         } else {
             res.status(404).json({ message: 'Usuario no encontrado' });
         }
