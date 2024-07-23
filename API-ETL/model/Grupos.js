@@ -33,7 +33,7 @@ const Grupos = sequelize.define('Grupo', {
     allowNull: true,
     defaultValue: null
   },
-  Carreras_pk: {
+  fk_carreras: {
     type: DataTypes.INTEGER,
     allowNull: false
   }

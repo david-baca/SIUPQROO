@@ -1,22 +1,37 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const ListAsing = sequelize.define('ListAsig', {
-  Profesores_pk: {
+const ListAsing = sequelize.define('ListAsing', {
+  fk_profesores: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    primaryKey: true,
+    references: {
+      model: 'Profesores',
+      key: 'pk'
+    }
   },
-  Carreras_pk: {
+  fk_grupos: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    primaryKey: true
+    references: {
+      model: 'Grupos',
+      key: 'pk'
+    }
+  },
+  fk_materias: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Materias',
+      key: 'pk'
+    }
   }
 }, {
-  tableName: 'List_Asig',
+  tableName: 'List_Asing',
   timestamps: false,
-  charset: 'utf8',
-  collate: 'utf8_general_ci'
+  charset: 'latin1',
+  collate: 'latin1_general_ci'
 });
 
 module.exports = ListAsing;

@@ -11,32 +11,46 @@ const Directores = require('./Directores');
 const Administradores = require('./Administradores');
 const SecretariosAcademicos = require('./SecretariosAcademicos');
 const Usuarios = require('./Usuarios');
+
 // Definir las asociaciones
 
 // Profesores -> ListAsing
 Profesores.hasMany(ListAsing, {
-  foreignKey: 'Profesores_pk',
+  foreignKey: 'fk_profesores',
   sourceKey: 'pk',
-  as: 'ListAsig'
+  as: 'ListAsing'
 });
 
 ListAsing.belongsTo(Profesores, {
-  foreignKey: 'Profesores_pk',
+  foreignKey: 'fk_profesores',
   targetKey: 'pk',
   as: 'Profesor'
 });
 
-// Carreras -> ListAsing
-Carreras.hasMany(ListAsing, {
-  foreignKey: 'Carreras_pk',
+// Grupos -> ListAsing
+Grupos.hasMany(ListAsing, {
+  foreignKey: 'fk_grupos',
   sourceKey: 'pk',
-  as: 'ListAsig'
+  as: 'ListAsing'
 });
 
-ListAsing.belongsTo(Carreras, {
-  foreignKey: 'Carreras_pk',
+ListAsing.belongsTo(Grupos, {
+  foreignKey: 'fk_grupos',
   targetKey: 'pk',
-  as: 'Carrera'
+  as: 'Grupo'
+});
+
+// Materias -> ListAsing
+Materias.hasMany(ListAsing, {
+  foreignKey: 'fk_materias',
+  sourceKey: 'pk',
+  as: 'ListAsing'
+});
+
+ListAsing.belongsTo(Materias, {
+  foreignKey: 'fk_materias',
+  targetKey: 'pk',
+  as: 'Materia'
 });
 
 // Grupos -> ListCalif
@@ -78,7 +92,7 @@ ListCalif.belongsTo(Alumnos, {
   as: 'Alumno'
 });
 
-// Periodo -> ListCalif
+// Periodos -> ListCalif
 Periodos.hasMany(ListCalif, {
   foreignKey: 'fk_Periodos',
   sourceKey: 'pk',
@@ -91,36 +105,48 @@ ListCalif.belongsTo(Periodos, {
   as: 'Periodo'
 });
 
-Usuarios.hasMany(Directores, { 
-  foreignKey: 'fk_Usuario' 
+// Usuarios -> Directores
+Usuarios.hasMany(Directores, {
+  foreignKey: 'fk_Usuario',
+  as: 'Directores'
 });
 
-Directores.belongsTo(Usuarios, { 
-  foreignKey: 'fk_Usuario' 
+Directores.belongsTo(Usuarios, {
+  foreignKey: 'fk_Usuario',
+  as: 'Usuario'
 });
 
-Carreras.hasMany(Directores, { 
-  foreignKey: 'fk_Carrera' 
+// Carreras -> Directores
+Carreras.hasMany(Directores, {
+  foreignKey: 'fk_Carrera',
+  as: 'Directores'
 });
 
-Directores.belongsTo(Carreras, { 
-  foreignKey: 'fk_Carrera' 
+Directores.belongsTo(Carreras, {
+  foreignKey: 'fk_Carrera',
+  as: 'Carrera'
 });
 
-Usuarios.hasMany(Administradores, { 
-  foreignKey: 'fk_Usuario' 
+// Usuarios -> Administradores
+Usuarios.hasMany(Administradores, {
+  foreignKey: 'fk_Usuario',
+  as: 'Administradores'
 });
 
-Administradores.belongsTo(Usuarios, { 
-  foreignKey: 'fk_Usuario' 
+Administradores.belongsTo(Usuarios, {
+  foreignKey: 'fk_Usuario',
+  as: 'Usuario'
 });
 
-Usuarios.hasMany(SecretariosAcademicos, { 
-  foreignKey: 'fk_Usuario' 
+// Usuarios -> SecretariosAcademicos
+Usuarios.hasMany(SecretariosAcademicos, {
+  foreignKey: 'fk_Usuario',
+  as: 'SecretariosAcademicos'
 });
 
-SecretariosAcademicos.belongsTo(Usuarios, { 
-  foreignKey: 'fk_Usuario' 
+SecretariosAcademicos.belongsTo(Usuarios, {
+  foreignKey: 'fk_Usuario',
+  as: 'Usuario'
 });
 
 module.exports = {

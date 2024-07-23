@@ -3,6 +3,7 @@ const Periodos = require('../../model/Periodo');
 const Carreras = require('../../model/Carreras');
 const Profesores = require('../../model/Profesores');
 const Grupos = require('../../model/Grupos');
+const Materias = require('../../model/Materias');
 const ListAsing = require('../../model/ListAsing');
 const leerDBF = require('./leerDBF');
 const writeEstado = require('./escribirEstados');
@@ -17,7 +18,7 @@ async function procesarList_Asing() {
     for (let i = 0; i < registrosDGRUPO.length; i++) {
         const registro = registrosDGRUPO[i];
         // Paso 4: Extraer PDOCVE y verificar si existe en la tabla periodos
-        const { PDOCVE, GPOCVE, CARCVE, PERCVE} = registro;
+        const { PDOCVE, GPOCVE, CARCVE, PERCVE, MATCVE} = registro;
         const periodo = await Periodos.findByPk(PDOCVE);
         if (periodo != null) {
             // control de error en caso de que no exista profesor para alguna carrera
@@ -34,8 +35,8 @@ async function procesarList_Asing() {
                 // Paso 8: Extraer GPOCVE para registrar el grupo
                 try {// Crear un nuevo grupo si no exuiste
                     await Grupos.findOrCreate({
-                        where: { codigo: GPOCVE },
-                        defaults: { codigo: GPOCVE, Carreras_pk: CARCVE }
+                        where: { codigo: GPOCVE }, 
+                        defaults: { codigo: GPOCVE, fk_carreras: CARCVE }
                     });
                 } catch (error) {
                     writeEstado(`${PDOCVE}.txt`, `Error al cargar el grupo en la BD: ${GPOCVE} - ${error}`);
@@ -49,11 +50,22 @@ async function procesarList_Asing() {
                 } catch (error) {
                     writeEstado(`${PDOCVE}.txt`, `Error al cargar el profesor en la BD: ${PERCVE} - ${error}`);
                 }  
+                try {// Crear una nueva meteria si no existe
+                    await Materias.findOrCreate({
+                        where: { codigo: MATCVE },
+                        defaults: { codigo: MATCVE }
+                    });
+                } catch (error) {
+                    writeEstado(`${PDOCVE}.txt`, `Error al cargar la meteria en la BD: ${MATCVE} - ${error}`);
+                }  
                 //crear una lista de asignaciones
                 try {// Crear una nueva lista de asignaciones
+                    materia = await Materias.findOne({where:{codigo: MATCVE}});
+                    grupo = await Grupos.findOne({where:{codigo: GPOCVE}});
                     await ListAsing.create({
-                        Profesores_pk: PERCVE,
-                        Carreras_pk: CARCVE,
+                        fk_profesores: PERCVE,
+                        fk_grupos: grupo.pk,
+                        fk_materias: materia.pk,
                     });
                 } catch (error) {
                     writeEstado(`${PDOCVE}.txt`, `Error al cargar la lista de asignaciones - ${error}`);

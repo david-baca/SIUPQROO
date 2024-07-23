@@ -9,8 +9,9 @@ export const DeleteDataView = () => {
     const validar = async () => {
         try {
             const response = await axios.get(`/check/estado`);
-            if(response.data.mensaje == "Terminado"){setestado(1)}
-            setestado(2)
+            if(response.data.mensaje == "Terminado"){setestado(1)}else{
+                setestado(2)
+            }
         } catch (error) {
         }
     }
