@@ -5,6 +5,7 @@ const writeEstado = require('./escribirEstados');
 
 async function iniciar() {
     try {
+        await writeEstado(`general.txt`, `Iniciando proceso de extraccion`);
         await procesarList_Asing()
         await writeEstado(`general.txt`, `CORECTO fase 1 de extraccion de asignaciones`);
         await procesarListCalif()

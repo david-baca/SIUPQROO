@@ -1,21 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import InterfaceModel from './interfaceModel';
+import { useState, useEffect } from 'react';
+import InterfaceModel from "../pages/interfaceModel.js"
 import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios.js';
 import img from '../../public/image3.png';
+import exitoso from '../../public/image5.png';
 import cargando from '../../public/image4.png';
 
-interface ApiResponsePeriods {
-    pk: number;
-    fecha_fin: string;
-    Periodo: string;
-  }
-
-export const Valid =() =>{
-    const navigate = useNavigate();
-    const handleNavigateHome = () => {
-      navigate('/HomeAdmin');
-    };
+export const Fallo =() =>{
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => {
         setOpen(true);
@@ -37,50 +28,47 @@ export const Valid =() =>{
         handleClose();
     };
     async function solicuitarPeriodos(){
-        try{
         const res = await axios.get("/periodo")
-        setPeriods (res.data)}catch{}
+        setPeriods (res.data)
     }
     useEffect(() => {
         solicuitarPeriodos();
     },[]);
-    const [periods, setPeriods] =  useState<ApiResponsePeriods[]>([]);
+    const [periods, setPeriods] = useState([]);
+   // _________
+    const navigate = useNavigate();
+
+    const handleNavigateHome = () => {
+      navigate('/HomeAdmin');
+    };
     return (
     <>
         <InterfaceModel
             userType="Administrador"
             titleSection="Eliminar datos guardados"
-            titleAction="Puedes eliminar los siguientes datos"
+            titleAction=""
             subtitleAction=""
             contenido={<>
-            <table className="min-w-full divide-y divide-gray-200">
-            <thead className="">
-                <tr>
-                    <th className="border border-black border-5 px-6 py-3 text-center font-medium text-gray-500 uppercase tracking-wider">Periodo Cuatrimestral</th>
-                    <th className="border border-black border-5 px-6 py-3 text-center font-medium text-gray-500 uppercase tracking-wider">Año</th>
-                </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-                {periods.map((row, index) => (
-                    <tr key={index}>
-                        <td className="border border-black border-5 px-6 py-4 text-center">{row.Periodo}</td>
-                        <td className="border border-black border-5 px-6 py-4 text-center">{row.fecha_fin.substring(0, 4)}</td>
-                    </tr>
-                ))}
-            </tbody>
-            </table>
-            <div className="flex justify-end my-6 mx-5">
-                    <button className="font-bold mr-2 bg-[#ec6b0c] text-white py-2 px-4 rounded-xl" onClick={handleNavigateHome}>
-                        Volver a la página principal
-                    </button>
-                    <button className="font-bold bg-[#DC3545] text-white py-2 px-4 rounded-xl flex items-center" onClick={handleClickOpen}>
+            <div className="flex flex-col items-center">
+                <h1 className='text-center font-bold text-xl'
+                >Lo sentimos, hubo un error al intentar cargar tus archivos. </h1>
+                <img className="w-[100%] md:w-[800px] h-auto" 
+                    src={img}
+                />
+                <h2>Recuerda que para volver a cargar datos, primero tienes que eliminar los archivos existentes.</h2>
+            </div>
+            <div className="flex flex-col items-center">
+            <button className="font-bold bg-[#DC3545] text-white py-2 px-4 rounded-xl flex items-center" onClick={handleClickOpen}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="mr-1 bi bi-trash" viewBox="0 0 16 16">
                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                             <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                         </svg>
                         Eliminar todo 
                     </button>
-                </div>
+                <button onClick={handleNavigateHome} className='bg-[#ff8702] text-white p-1 px-5 rounded-3xl'>
+                    volver a la pagina anterior
+                </button>
+            </div>
             </>}
         />
         {open && (
@@ -125,7 +113,7 @@ export const Valid =() =>{
     );
 }
 
-export const Invalid =() =>{
+export const Cargando =() =>{
     const navigate = useNavigate();
 
     const handleNavigateHome = () => {
@@ -141,12 +129,45 @@ export const Invalid =() =>{
             contenido={<>
             <div className="flex flex-col items-center">
                 <h1 className='text-center font-bold text-xl'
-                >¡Ups! Parece que no hay datos cargados, no puedes eliminar. </h1>
+                >Tus archivos se están cargando, este proceso puede tardar unos minutos. </h1>
                 <img className="w-[100%] md:w-[800px] h-auto" 
-                    src={img}
+                    src={cargando}
                 />
             </div>
             <div className="flex flex-col items-end">
+                <button onClick={handleNavigateHome} className='bg-[#ff8702] text-white p-1 px-5 rounded-3xl'>
+                    volver a la pagina anterior
+                </button>
+            </div>
+            </>}
+        />
+    </>
+    );
+}
+
+export const Exitoso =() =>{
+    const navigate = useNavigate();
+
+    const handleNavigateHome = () => {
+      navigate('/HomeAdmin');
+    };
+    return (
+    <>
+        <InterfaceModel
+            userType="Administrador"
+            titleSection="Eliminar datos guardados"
+            titleAction=""
+            subtitleAction=""
+            contenido={<>
+            <div className="flex flex-col items-center">
+                <h1 className='text-center font-bold text-xl'
+                >¡Tus archivos se han cargado correctamente!</h1>
+                <img className="w-[100%] md:w-[500px] h-auto" 
+                    src={exitoso}
+                />
+                <h2>Recuerda que para volver a cargar datos, primero tienes que eliminar los archivos existentes.</h2>
+            </div>
+            <div className="flex flex-col items-center p-5">
                 <button onClick={handleNavigateHome} className='bg-[#ff8702] text-white p-1 px-5 rounded-3xl'>
                     volver a la pagina anterior
                 </button>

@@ -4,17 +4,16 @@ const fs = require('fs');
 const archivosPermitidos = ['DPERIO.DBF', 'DGRUPO.DBF', 'DLISTA.DBF', 'DMATER.DBF', 'DCARRE.DBF', 'DALUMN.DBF', 'DPERSO.DBF'];
 const dbfDirectory = path.join(__dirname, '../../DBF');
 
-// Verificar y crear la carpeta DBF si no existe
-if (!fs.existsSync(dbfDirectory)) {
-    fs.mkdirSync(dbfDirectory, { recursive: true });
-}
-
 //configuracion de entrada de cargha de archivos
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, dbfDirectory);
     },
     filename: function(req, file, cb) {
+        // Verificar y crear la carpeta DBF si no existe
+        if (!fs.existsSync(dbfDirectory)) {
+            fs.mkdirSync(dbfDirectory, { recursive: true });
+        }
         // Verificar si el nombre del archivo está en la lista de permitidos
         if (archivosPermitidos.includes(file.originalname)) {
             cb(null, file.originalname);

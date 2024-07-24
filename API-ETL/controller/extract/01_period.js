@@ -21,8 +21,9 @@ const procesarPeriodos = async (request) => {
                     let month2 = fech2.substring(4, 7);
                     let year2 = fech2.substring(11, 16);
                     if (year === year2 && month === month2) {
-                        console.log(fech);
                         periodosEncontrados.push({
+                            ano: year,
+                            estado: "activo",
                             fecha: request[i],
                             codigoPeriodo: registro.PDOCVE,
                             fechaFinPeriodo: registro.PDOTER,
@@ -36,8 +37,9 @@ const procesarPeriodos = async (request) => {
 
         if (request.length === 0) {
             for (let periodo of periodosEncontrados) {
+                if(periodo.estado == "activo"){
                 await Periodos.create({pk: periodo.codigoPeriodo,fecha_fin: periodo.
-                    fechaFinPeriodo,Periodo: periodo.periodo});
+                    fechaFinPeriodo,Periodo: periodo.periodo});}
             }
             return {
                 estado: true,
@@ -53,8 +55,24 @@ const procesarPeriodos = async (request) => {
                 };
             } else {
                 for (let periodo of periodosEncontrados) {
+                    if(periodo.estado == "activo"){
                     await Periodos.create({pk: periodo.codigoPeriodo,fecha_fin: periodo.
-                        fechaFinPeriodo,Periodo: periodo.periodo});
+                        fechaFinPeriodo,Periodo: periodo.periodo});}
+
+                    for (let i = 0; i < request.length; i++) {
+                        let fech2 = request[i].toString();
+                        let month2 = fech2.substring(4, 7);
+                        let year2 = fech2.substring(11, 16);
+                        periodosEncontrados.push({
+                            ano: year2,
+                            estado: "inactivo",
+                            fecha: null,
+                            codigoPeriodo: null,
+                            fechaFinPeriodo: null,
+                            periodo: month2,
+                        });
+                        request.splice(i, 1);
+                    }
                 }
                 return {
                     estado: true,
