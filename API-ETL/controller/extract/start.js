@@ -1,3 +1,4 @@
+const io = require('../../server');
 const procesarList_Asing = require('./02_ListAsing');
 const procesarListCalif = require('./03_ListCalif');
 const procesarExecute = require('./04_execute');
@@ -13,6 +14,8 @@ async function iniciar() {
         await procesarExecute()
         await writeEstado(`general.txt`, `CORECTO fase 3 de extraccion de datos en genal`);
         await writeEstado(`general.txt`, `FIN DEL LA EXTRACCION`)
+
+        io.emit('processCompleted'); //Aquí se emite que se ha completado el proceso
     } catch (error) {
         await writeEstado(`general.txt`, `FALLO EN LA EXTRACCION`);
     }
