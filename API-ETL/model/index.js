@@ -65,7 +65,17 @@ ListCalif.belongsTo(Grupos, {
   targetKey: 'pk',
   as: 'Grupo'
 });
-
+//Grupos -> Carreras
+Grupos.belongsTo(Carreras, {
+  foreignKey: 'fk_carreras',
+  targetKey: 'pk',
+  as: 'Carrera'
+});
+Carreras.hasMany(Grupos, {
+  foreignKey: 'fk_carreras',
+  sourceKey: 'pk',
+  as: 'Grupo'
+});
 // Materias -> ListCalif
 Materias.hasMany(ListCalif, {
   foreignKey: 'fk_materias',

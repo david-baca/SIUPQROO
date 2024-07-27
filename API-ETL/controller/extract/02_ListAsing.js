@@ -34,9 +34,20 @@ async function procesarList_Asing() {
                 }                
                 // Paso 8: Extraer GPOCVE para registrar el grupo
                 try {// Crear un nuevo grupo si no exuiste
+                    // Determinar el valor del atributo turno basado en GPOCVE
+                    let turn = 'Sin especificar';
+                    if (GPOCVE.includes('V')) {
+                    turn = 'Vespertino';
+                    } else if (GPOCVE.includes('M')) {
+                    turn = 'Matutino';
+                    }
                     await Grupos.findOrCreate({
-                        where: { codigo: GPOCVE }, 
-                        defaults: { codigo: GPOCVE, fk_carreras: CARCVE }
+                        where: { codigo: GPOCVE },
+                        defaults: { 
+                        codigo: GPOCVE, 
+                        fk_carreras: CARCVE,
+                        turno: turn
+                        }
                     });
                 } catch (error) {
                     writeEstado(`${PDOCVE}.txt`, `Error al cargar el grupo en la BD: ${GPOCVE} - ${error}`);
