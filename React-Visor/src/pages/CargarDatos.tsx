@@ -1,25 +1,76 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import InterfaceModel from './interfaceModel';
-import target1 from '../../public/target_1.png';
-import target2 from '../../public/target_2.png';
 import { useNavigate } from 'react-router-dom';
+import axios from '../api/axios';
 
-// Ejemplo de datos simulados (puedes obtener estos datos de tu API)
-const DatosACargar = [
-  { archivo: 'DPERIO.DBF'},
-  { archivo: 'DGRUPO.DBF'},
-  { archivo: 'DLISTA.DBF'},
-  { archivo: 'DMATER.DBF'},
-  { archivo: 'DCARRE.DBF'},
-  { archivo: 'DALUMN.DBF'},
-  { archivo: 'DPERSO.DBF'},
-];
+interface DatoACargar {
+  archivo: string;
+  exist: boolean;
+}
 
 const CargarDatos = () => {
   const navigate = useNavigate();
+  const [DatosACargar, setDatosACargar] = useState<DatoACargar[]>([]);
+  const [fileErrors, setFileErrors] = useState<Record<string, string | null>>({});
+
+  async function extraction() {
+    try {
+      const response = await axios.get<DatoACargar[]>('/check/preload');
+      if (response.status === 200) {
+        setDatosACargar(response.data);
+      }
+    } catch (error) {
+      console.error('Error al extraer los datos:', error);
+    }
+  }
+
+  useEffect(() => {
+    extraction();
+  }, []);
 
   const handleNavigateCargarperiodos = () => {
     navigate('/CargaPeriodos');
+  };
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>, archivo: string) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.name === archivo) {
+
+        // Clear previous error
+        setFileErrors(prevState => ({
+          ...prevState,
+          [archivo]: null
+        }));
+
+        // Create FormData and send the file to the API
+        const formData = new FormData();
+        formData.append('myFile', file);
+
+        try {
+          const response = await axios.post('/dbf/load', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+
+          if (response.data.estado) {
+            navigate(0)
+          } else {
+            console.error('Error al cargar el archivo');
+            alert('Error al cargar el archivo');
+          }
+        } catch (error) {
+          console.error('Error al realizar la solicitud', error);
+          alert('Error al realizar la solicitud');
+        }
+      } else {
+        setFileErrors(prevState => ({
+          ...prevState,
+          [archivo]: `El archivo seleccionado no coincide con ${archivo}`
+        }));
+      }
+    }
   };
 
   return (
@@ -32,26 +83,32 @@ const CargarDatos = () => {
         <>
           <div className='flex flex-col md:flex-col justify-between p-5 overflow-scroll max-h-[25rem]'>
             {DatosACargar.map((dato, index) => (
-            <>
-                <div key={index} className="flex flex-row items-center my-2">
-                <h1 className="mr-1">Archivo</h1>
-                <h1 className="font-bold">{dato.archivo}</h1>
+              <div key={index}>
+                <div className="flex flex-row items-center my-2">
+                  <h1 className="mr-1">Archivo</h1>
+                  <h1 className="font-bold">{dato.archivo}</h1>
                 </div>
                 <div className='flex flex-row items-center justify-between bg-gray-200'>
-                    <label className="bg-[#ec6b0c] w-[30%] text-center font-medium rounded-xl mx-4 my-2 cursor-pointer">
-                        <span>Eaxaminar</span>
-                        <input type="file" className="hidden" />
-                    </label>
-                    <h1 className='font-medium'>No se ha seleccionado ningún archivo</h1>
+                  <label className="bg-[#ec6b0c] w-[30%] text-center font-medium rounded-xl mx-4 my-2 cursor-pointer">
+                    <span>Examinar</span>
+                    <input 
+                      type="file" 
+                      className="hidden" 
+                      onChange={(e) => handleFileChange(e, dato.archivo)} 
+                      accept=".dbf" 
+                    />
+                  </label>
+                  {fileErrors[dato.archivo] ? (
+                    <h1 className='font-medium text-red-600'>{fileErrors[dato.archivo]}</h1>
+                  ) : (
+                    <h1 className='font-medium'>{dato.exist ? 'Archivo ya cargado' : 'No se ha seleccionado ningún archivo'}</h1>
+                  )}
                 </div>
-                <div className="flex items-center justify-between py-2 w-full px-5">
-          </div>
-            </>
+              </div>
             ))}
           </div>
-          
           <div className="flex items-center justify-between py-2 w-full px-5">
-            <span className="text-gray-600">Mostrando 1 de 3</span>
+            <span className="text-gray-600">Mostrando 1 de {DatosACargar.length}</span>
             <div>
               <button className="text-gray-600 mx-2 cursor-default">Anterior</button>
               <button onClick={handleNavigateCargarperiodos} className="text-gray-600 hover:text-gray-800 mx-2">Siguiente</button>

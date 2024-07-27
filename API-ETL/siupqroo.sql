@@ -51,11 +51,11 @@ CREATE TABLE IF NOT EXISTS `SIUPQROO`.`Grupos` (
   `p_rep` INT(3) NULL DEFAULT NULL,
   `codigo` VARCHAR(10) NULL NOT NULL UNIQUE,
   `turno` VARCHAR(1) NULL DEFAULT NULL,
-  `Carreras_pk` INT(11) NOT NULL,
-  PRIMARY KEY (`pk`, `Carreras_pk`),
-  INDEX `fk_Grupos_Carreras1_idx` (`Carreras_pk` ASC),
+  `fk_carreras` INT(11) NOT NULL,
+  PRIMARY KEY (`pk`, `fk_carreras`),
+  INDEX `fk_Grupos_Carreras1_idx` (`fk_carreras` ASC),
   CONSTRAINT `fk_Grupos_Carreras1`
-    FOREIGN KEY (`Carreras_pk`)
+    FOREIGN KEY (`fk_carreras`)
     REFERENCES `SIUPQROO`.`Carreras` (`pk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -71,23 +71,32 @@ CREATE TABLE IF NOT EXISTS `SIUPQROO`.`Alumnos` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-CREATE TABLE IF NOT EXISTS `SIUPQROO`.`List_Asig` (
-  `Profesores_pk` INT(11) NOT NULL,
-  `Carreras_pk` INT(11) NOT NULL,
-  INDEX `fk_List_P-C_Profesores_idx` (`Profesores_pk` ASC),
-  INDEX `fk_List_P-C_Carreras1_idx` (`Carreras_pk` ASC),
+CREATE TABLE IF NOT EXISTS `SIUPQROO`.`List_Asing` (
+  `fk_profesores` INT NOT NULL,
+  `fk_grupos` INT NOT NULL,
+  `fk_materias` INT NOT NULL,
+  INDEX `fk_List_P-C_Profesores_idx` (`fk_profesores` ASC),
+  INDEX `fk_List_P-C_Grupos1_idx` (`fk_grupos` ASC),
+  INDEX `fk_List_P-C_Materias1_idx` (`fk_materias` ASC),
   CONSTRAINT `fk_List_P-C_Profesores`
-    FOREIGN KEY (`Profesores_pk`)
+    FOREIGN KEY (`fk_profesores`)
     REFERENCES `SIUPQROO`.`Profesores` (`pk`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_List_P-C_Carreras1`
-    FOREIGN KEY (`Carreras_pk`)
-    REFERENCES `SIUPQROO`.`Carreras` (`pk`)
+  CONSTRAINT `fk_List_P-C_Grupos1`
+    FOREIGN KEY (`fk_grupos`)
+    REFERENCES `SIUPQROO`.`Grupos` (`pk`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_List_P-C_Materias1`
+    FOREIGN KEY (`fk_materias`)
+    REFERENCES `SIUPQROO`.`Materias` (`pk`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
+
 
 CREATE TABLE IF NOT EXISTS `SIUPQROO`.`Periodos` (
   `pk` INT(11) NOT NULL,

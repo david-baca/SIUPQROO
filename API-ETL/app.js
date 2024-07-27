@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const routerDBF = require('./view/dbfRoutes');
 const routerUser = require('./view/userRoutes');
 const routerCarrera = require('./view/carreraRoute');
+const routeCheck = require('./view/checkRoute');
+const routePeriodo = require('./view/periodoRoute');
+const routerReports = require('./view/reposrtsRoute');
 const sequelize = require('./config/database');
 const app = express();
 // Configuración básica de CORS para permitir todas las solicitudes
@@ -16,6 +19,9 @@ app.use(bodyParser.json());
 app.use('/dbf', routerDBF);
 app.use('/user', routerUser);
 app.use('/carrera', routerCarrera);
+app.use('/check', routeCheck);
+app.use('/periodo', routePeriodo);
+app.use('/reports', routerReports);
 
 // Sincronización y creación de la base de datos si no existe  
 sequelize.sync({ force: false })

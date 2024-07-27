@@ -1,34 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InterfaceModel from './interfaceModel';
 import { useNavigate } from 'react-router-dom';
+import axios from '../api/axios.js';
+import img from '../../public/image3.png';
+import cargando from '../../public/image4.png';
 
-const DeleteDataView = () => {
+interface ApiResponsePeriods {
+    pk: number;
+    fecha_fin: string;
+    Periodo: string;
+  }
+
+export const Valid =() =>{
     const navigate = useNavigate();
-
     const handleNavigateHome = () => {
       navigate('/HomeAdmin');
     };
-
     const [open, setOpen] = useState(false);
-
     const handleClickOpen = () => {
         setOpen(true);
     };
-
     const handleClose = () => {
         setOpen(false);
     };
-
-    const handleDelete = () => {
-        // TODO
+    const handleDelete = async () => {
+        try {
+            const response = await axios.delete('/dbf/delete');
+            if (response.status === 200) {
+                navigate(0)
+            } else {
+                alert('Hubo un problema al eliminar los datos');
+            }
+        } catch (error: any) {
+            alert(`Error al intentar eliminar los datos: ${error.message}`);
+        }
         handleClose();
     };
-
-    const periods = [
-        { period: 'Enero - Abril', year: 2020 },
-        { period: 'Mayo - Agosto', year: 2020 },
-        { period: 'Septiembre - Diciembre', year: 2020 },
-    ];
+    async function solicuitarPeriodos(){
+        try{
+        const res = await axios.get("/periodo")
+        setPeriods (res.data)}catch{}
+    }
+    useEffect(() => {
+        solicuitarPeriodos();
+    },[]);
+    const [periods, setPeriods] =  useState<ApiResponsePeriods[]>([]);
     return (
     <>
         <InterfaceModel
@@ -36,7 +52,8 @@ const DeleteDataView = () => {
             titleSection="Eliminar datos guardados"
             titleAction="Puedes eliminar los siguientes datos"
             subtitleAction=""
-            contenido={<><table className="min-w-full divide-y divide-gray-200">
+            contenido={<>
+            <table className="min-w-full divide-y divide-gray-200">
             <thead className="">
                 <tr>
                     <th className="border border-black border-5 px-6 py-3 text-center font-medium text-gray-500 uppercase tracking-wider">Periodo Cuatrimestral</th>
@@ -46,8 +63,8 @@ const DeleteDataView = () => {
             <tbody className="bg-white divide-y divide-gray-200">
                 {periods.map((row, index) => (
                     <tr key={index}>
-                        <td className="border border-black border-5 px-6 py-4 text-center">{row.period}</td>
-                        <td className="border border-black border-5 px-6 py-4 text-center">{row.year}</td>
+                        <td className="border border-black border-5 px-6 py-4 text-center">{row.Periodo}</td>
+                        <td className="border border-black border-5 px-6 py-4 text-center">{row.fecha_fin.substring(0, 4)}</td>
                     </tr>
                 ))}
             </tbody>
@@ -106,6 +123,36 @@ const DeleteDataView = () => {
         )}
     </>
     );
-};
+}
 
-export default DeleteDataView;
+export const Invalid =() =>{
+    const navigate = useNavigate();
+
+    const handleNavigateHome = () => {
+      navigate('/HomeAdmin');
+    };
+    return (
+    <>
+        <InterfaceModel
+            userType="Administrador"
+            titleSection="Eliminar datos guardados"
+            titleAction=""
+            subtitleAction=""
+            contenido={<>
+            <div className="flex flex-col items-center">
+                <h1 className='text-center font-bold text-xl'
+                >¡Ups! Parece que no hay datos cargados, no puedes eliminar. </h1>
+                <img className="w-[100%] md:w-[800px] h-auto" 
+                    src={img}
+                />
+            </div>
+            <div className="flex flex-col items-end">
+                <button onClick={handleNavigateHome} className='bg-[#ff8702] text-white p-1 px-5 rounded-3xl'>
+                    volver a la pagina anterior
+                </button>
+            </div>
+            </>}
+        />
+    </>
+    );
+}
