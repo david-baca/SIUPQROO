@@ -1,8 +1,8 @@
 const express = require('express');
-const deleteDBFContraller = require('../controller/DBF/deleteDBF');
+const reportsContraller = require('../controller/reportsContraller');
 const routerReports = express.Router();
 
 // POST /api/dbf/upload 
-routerReports.get('/all', loadDBFContraller.load);
+routerReports.post('/all', reportsContraller.ReportALL);
 
 module.exports = routerReports;

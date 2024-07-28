@@ -37,15 +37,6 @@ async function procesarListCalif() {
             } catch (error) {
                 writeEstado(`${PDOCVE}.txt`, `Error al cargar la meteria en la BD: ${MATCVE} - ${error}`);
             }  
-            // Paso 11: Extraer GPOCVE y registrar el grupo
-            try {// Crear un nuevo grupo si no existe
-                await Grupos.findOrCreate({
-                    where: { codigo: GPOCVE },
-                    defaults: { codigo: GPOCVE }
-                });
-            } catch (error) {
-                writeEstado(`${PDOCVE}.txt`, `Error al cargar el grupo en la BD: ${GPOCVE} - ${error}`);
-            }  
             //crear una lista de calificaciones
             try {// buscar el id asignado a la materia
                 materia = await Meterias.findOne({where:{codigo: MATCVE}});
