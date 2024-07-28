@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import logo from '../../public/logoUPQROO.png';
 import {clearFromLocalStorage} from "../context/Credentials"
 import { useNavigate } from 'react-router-dom';
+import {useAuth} from '../context/AuthContext';
 
 interface Props {
   userType: string;
@@ -14,8 +15,10 @@ interface Props {
 const interfaceModel: React.FC<Props> = ({ userType, titleSection, titleAction, subtitleAction, contenido }) => {
   const [mostrarCerrarSesion, setMostrarCerrarSesion] = useState(false);
   const navigate = useNavigate();
+  const auth = useAuth();
   const exit=()=>{
     clearFromLocalStorage()
+    auth?.logout();
     navigate(0);
   }
   return (

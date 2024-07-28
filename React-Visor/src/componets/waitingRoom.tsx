@@ -5,9 +5,9 @@ import axios from '../api/axios.js';
 import img from '../../public/image3.png';
 import exitoso from '../../public/image5.png';
 import cargando from '../../public/image4.gif';
-import { io } from 'socket.io-client';
+//import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:3000');
+//const socket = io('http://localhost:3000');
 
 export const Fallo = () => {
     const [open, setOpen] = useState(false);
@@ -118,15 +118,15 @@ export const Fallo = () => {
 
 export const Cargando = () => {
 
-    useEffect(() => {
-        socket.on('processCompleted', () => {
-            navigate(0);
-        });
+    // useEffect(() => {
+    //     socket.on('processCompleted', () => {
+    //         navigate(0);
+    //     });
 
-        return () => {
-            socket.off('processCompleted');
-        };
-    }, []);
+    //     return () => {
+    //         socket.off('processCompleted');
+    //     };
+    // }, []);
 
     const navigate = useNavigate();
 
