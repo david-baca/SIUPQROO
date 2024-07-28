@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios.js';
 import img from '../../public/image3.png';
 import exitoso from '../../public/image5.png';
-import cargando from '../../public/image4.png';
+import cargando from '../../public/image4.gif';
 import { io } from 'socket.io-client';
 
 const socket = io('http://localhost:3000');
@@ -144,7 +144,7 @@ export const Cargando = () => {
                     <div className="flex flex-col items-center">
                         <h1 className='text-center font-bold text-xl'
                         >Tus archivos se están cargando, este proceso puede tardar unos minutos. </h1>
-                        <img className="w-[100%] md:w-[800px] h-auto"
+                        <img className="w-[209px]"
                             src={cargando}
                         />
                     </div>
