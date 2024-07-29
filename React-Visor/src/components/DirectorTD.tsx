@@ -76,7 +76,6 @@ const DirectorTD: React.FC<UserTableRowProps> = ({ user }) => {
   };
 
   return (
-    <td>
       <select
         value={selectedCareer !== null ? selectedCareer : ''}
         onChange={handleCareerChange}
@@ -87,7 +86,6 @@ const DirectorTD: React.FC<UserTableRowProps> = ({ user }) => {
           </option>
         ))}
       </select>
-    </td>
   );
 };
 
