@@ -1,8 +1,10 @@
+import { useState, useEffect } from 'react';
 import InterfaceModel from './interfaceModel';
 import img from '../../public/image2.png';
-import { useState } from 'react';
+import { getFromLocalStorage } from '../context/Credentials'; 
 
 const HomeSecretAcad = () => {
+  const [userType, setUserType] = useState<string | null>(null); 
   const [carreraSeleccionado, setCarreraSeleccionado] = useState<string | null>(null);
 
   const carreras = [
@@ -17,9 +19,16 @@ const HomeSecretAcad = () => {
     { nombre: "Enero - Abril 2023", pk: 3 }
   ];
 
+  useEffect(() => {
+    const localData = getFromLocalStorage(); 
+    if (localData) {
+      setUserType(localData.rol === "secretario" ? "Secretario Académico" : localData.rol); 
+    }
+  }, []);
+
   return (
     <InterfaceModel
-      userType="Administrador"
+      userType={userType || "Usuario"} 
       titleSection="Desempeño escolar"
       titleAction="Estás a punto de descargar los indicadores de la universidad."
       subtitleAction="¡Esperamos que esta información sea de gran utilidad para ti!"

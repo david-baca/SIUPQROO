@@ -16,13 +16,15 @@ const interfaceModel: React.FC<Props> = ({ userType, titleSection, titleAction, 
   const [mostrarCerrarSesion, setMostrarCerrarSesion] = useState(false);
   const navigate = useNavigate();
   const auth = useAuth();
+  
   const exit=()=>{
     clearFromLocalStorage()
     auth?.logout();
     navigate(0);
   }
   return (
-    <div className="h-[100vh] w-[100vw] flex flex-col items-center">
+  
+  <div className="h-[100vh] w-[100vw] flex flex-col items-center">
       <header className="sticky top-0 bg-white w-[100vw] px-10 py-1 flex justify-between border-gray-300 border-b-[3px]">
         <img 
           src={logo} 

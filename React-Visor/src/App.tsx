@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import { AuthProvider } from './context/AuthContext.js';
-import HomeAdmin from './pages/homeAdmin.tsx';
+import HomeAdmin from './pages/HomeAdmin.tsx';
 import HomeDirectCar from './pages/HomeDirectCar.tsx';
 import './App.css';
 import {Valid, Invalid} from './pages/DeleteData.tsx';
-import {Fallo, Cargando, Exitoso} from './componets/waitingRoom.tsx';
+import {Fallo, Cargando, Exitoso} from './components/waitingRoom.tsx';
 import CargaPeriodos from './pages/CargaPeriodos.tsx';
 import CargarDatos from './pages/CargarDatos.tsx';
-import { PrivateSecre, PrivateDirect, PrivateAdmin } from './componets/privatereoute.tsx';
+import { PrivateSecre, PrivateDirect, PrivateAdmin } from './components/PrivateRoute.tsx';
 import HomeSecretAcad from './pages/HomeSecrAcad.tsx';
 import UserPermissionsView from './pages/UserPermissions.tsx';
 import { useEffect, useState } from 'react';
@@ -21,7 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/HomeAdmin" element={<PrivateAdmin element={<HomeAdmin />} />} />
-          <Route path="/permison" element={<UserPermissionsView />} />
+          <Route path="/Permisos" element={<UserPermissionsView />} />
           <Route path="/DeleteData" element={<PrivateAdmin element={
             <GestorAdmin
               Valid={<Valid />}

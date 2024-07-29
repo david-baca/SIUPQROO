@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../api/axios';
 import InterfaceModel from './interfaceModel';
-import FloadCreating from '../componets/FloadCreating'; // Componente modal de creación de usuario
-import FloadEditing from '../componets/FloadEditing'; // Componente modal de edición de usuario
-import DeleteConfirmation from '../componets/DeleteConfirmation'; // Componente modal de confirmación de eliminación
-import AdminTD from '../componets/AdminTD';
-import DirectorTD from '../componets/DirectorTD';
-import SecreTD from '../componets/SecreTD';
+import FloadCreating from '../components/FloadCreating'; // Componente modal de creación de usuario
+import FloadEditing from '../components/FloadEditing'; // Componente modal de edición de usuario
+import DeleteConfirmation from '../components/DeleteConfirmation'; // Componente modal de confirmación de eliminación
+import AdminTD from '../components/AdminTD';
+import DirectorTD from '../components/DirectorTD';
+import SecreTD from '../components/SecreTD';
+import instance from '../api/axios';
 
 const UserPermissionsView: React.FC = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -18,7 +19,7 @@ const UserPermissionsView: React.FC = () => {
   // Función para obtener usuarios
   const fetchUsers = async () => {
     try {
-      const usersResponse = await axios.get('/user/read'); // Endpoint para obtener usuarios
+      const usersResponse = await instance.get('/user/read'); // Endpoint para obtener usuarios
       setUsers(usersResponse.data);
       setLoading(false);
     } catch (error) {
