@@ -1,9 +1,9 @@
-import { ComponentType, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getFromLocalStorage } from "../context/Credentials";
 
 interface ChildProps {
-  element: JSX.Element; // Ahora usa JSX.Element en lugar de ComponentType
+  element: JSX.Element;
 }
 
 export const PrivateSecre: React.FC<ChildProps> = ({ element }) => {

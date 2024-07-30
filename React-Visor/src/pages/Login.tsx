@@ -1,34 +1,33 @@
 import { useAuth } from '../context/AuthContext.js';
-import { useNavigate } from 'react-router-dom';
-import GoogleIcon from '@mui/icons-material/Google'; // Si prefieres, puedes usar una librería de iconos compatible con Tailwind
-import LogoUPQROO from '../../public/logoUPQROO.png';
-import fondoUPQROO from '../../public/LogoCafe.jpg';
 import instance from '../api/axios.js';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   saveToLocalStorage,
   getFromLocalStorage
 } from '../context/Credentials.js';
-import { useEffect } from 'react';
+
+import GoogleIcon from '@mui/icons-material/Google';
+import LogoUPQROO from '../../public/logoUPQROO.png';
+import fondoUPQROO from '../../public/LogoCafe.jpg';
 
 function Login() {
   const auth = useAuth();
+  
   const navigate = useNavigate();
-  const local = getFromLocalStorage();
 
-  function validation() {
-    if (local != null && local.rol == 'director') {
-      navigate('/HomeDirectCarr');
-    }
-    if (local != null && local.rol == 'secretario') {
-      navigate('/HomeSecretAcad');
-    }
-    if (local != null && local.rol == 'administrador') {
-      navigate('/HomeAdmin');
-    }
-  }
   useEffect(() => {
-    validation();
-  }, []);
+    const local = getFromLocalStorage();
+    if (local) {
+      if (local.rol === 'director') {
+        navigate('/HomeDirectCarr');
+      } else if (local.rol === 'secretario') {
+        navigate('/HomeSecretAcad');
+      } else if (local.rol === 'administrador') {
+        navigate('/HomeAdmin');
+      }
+    }
+  }, [navigate]); 
 
   const handleGoogle = async (e: any) => {
     e.preventDefault();
@@ -39,25 +38,24 @@ function Login() {
     }
 
     try {
-      await auth.loginWithGoogle();
+      const credential = await auth.loginWithGoogle();
+      const { email } = credential.user;
 
-      const { email } = auth.user || {};
+      const response = await instance.get(`/user/read/email/${email}`);
 
-      if (!email) return;
-
-      try {
-        const response = await instance.get(`/user/read/email/${email}`);
-        if (response.status === 200) {
-          saveToLocalStorage(response.data);
-          auth.loginWithGoogle();
-          navigate(0);
+      if (response.status === 200) {
+        saveToLocalStorage(response.data);
+        if (response.data.rol === 'director') {
+          navigate('/HomeDirectCarr');
+        } else if (response.data.rol === 'secretario') {
+          navigate('/HomeSecretAcad');
+        } else if (response.data.rol === 'administrador') {
+          navigate('/HomeAdmin');
         }
-      } catch (error) {
-        auth.logout();
-        console.log(error);
       }
-    } catch (error) {
-      console.error('Error during login:', error);
+    } catch (e) {
+      console.log('Error al leer el email de la base de datos', e);
+      auth.logout();
     }
   };
 

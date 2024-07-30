@@ -47,13 +47,11 @@ const SecreTD: React.FC<UserTableRowProps> = ({ user }) => {
   };
 
   return (
-    <td>
       <input
         type="checkbox"
         checked={isSecre?.fk_Usuario != null}
         onChange={handleSecreChange}
       />
-    </td>
   );
 };
 

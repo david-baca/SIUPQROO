@@ -39,10 +39,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const loginWithGoogle = async (): Promise<UserCredential> => {
-    const responseGoogle = new GoogleAuthProvider();
-    return await signInWithPopup(auth, responseGoogle);
+    const provider = new GoogleAuthProvider();
+    const credential = await signInWithPopup(auth, provider);
+    setUser(credential.user); 
+    return credential;
   };
-
+  
   const logout = async (): Promise<void> => {
     await signOut(auth);
     setUser(null); 
