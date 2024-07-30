@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import { AuthProvider } from './context/AuthContext.js';
-import HomeAdmin from './pages/HomeAdmin.tsx';
+import HomeAdmin from './pages/homeAdmin.tsx';
 import HomeDirectCar from './pages/HomeDirectCar.tsx';
 import './App.css';
 import {Valid, Invalid} from './pages/DeleteData.tsx';
