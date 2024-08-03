@@ -48,6 +48,7 @@ export const Valid =() =>{
     return (
     <>
         <InterfaceModel
+            homeText="Inicio" 
             userType="Administrador"
             titleSection="Eliminar datos guardados"
             titleAction="Puedes eliminar los siguientes datos"

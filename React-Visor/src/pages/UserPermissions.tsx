@@ -62,6 +62,7 @@ const UserPermissionsView: React.FC = () => {
   return (
     <>
       <InterfaceModel
+        homeText="Inicio" 
         userType="Administrador"
         titleSection="Administración de Permisos"
         titleAction="Estos son los permisos de SIUPQROO."
@@ -104,10 +105,10 @@ const UserPermissionsView: React.FC = () => {
                 </table>
               </div>
             </div>
-            <div className="mt-4">
+            <div className="mt-4 flex justify-end">
               <button 
                 onClick={() => window.history.back()} 
-                className="bg-[#ec6b0c] text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-600"
+                className="bg-[#ec6b0c] text-white px-4 py-2 rounded-md shadow-sm hover:bg-[#d86100]"
               >
                 Volver a la página anterior
               </button>

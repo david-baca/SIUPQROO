@@ -110,6 +110,7 @@ const CargaPeriodos: React.FC<CargaPeriodosProps> = ({ setResponse }) => {
 
   return (
     <InterfaceModel
+      homeText="Inicio"  
       userType="Administrador"
       titleSection="Carga de periodos"
       titleAction="Selecciona los periodos cuatrimestrales (máximo 4)"
