@@ -35,21 +35,21 @@ const HomeAdmin = () => {
       titleSection="¿Qué desea hacer hoy?"
       titleAction=""
       subtitleAction=""
+      homeText="Inicio" 
       contenido={
         <>
           <div className='flex flex-col md:flex-row justify-between p-5'>
-            <button onClick={handleNavigateAdministrarPermisos} className="text-center md:max-w-[40%] rounded-xl border-[5px] border-gray-300 m-5 hover:border-5 hover:border-orange-500">
+            <button onClick={handleNavigateAdministrarPermisos} className="text-center md:max-w-[30%] rounded-xl border-[5px] border-gray-300 m-5 hover:border-5 hover:border-orange-500">
               <h1 className="text-xl font-bold p-5">Administrar permisos</h1>
-              <img src={target0} className="w-auto h-[25rem]" alt="Imagen de permisos" />
+              <img src={target0} className="w-auto h-[20rem]" alt="Imagen de permisos" />
             </button>
-            <button onClick={handleNavigateCargar} className="text-center md:max-w-[40%] rounded-xl border-[5px] border-gray-300 m-5 hover:border-5 hover:border-orange-500">
+            <button onClick={handleNavigateCargar} className="text-center md:max-w-[30%] rounded-xl border-[5px] border-gray-300 m-5 hover:border-5 hover:border-orange-500">
               <h1 className="text-xl font-bold p-5">Cargar datos</h1>
-              <img src={target1} className="w-auto h-[25rem]" alt="Imagen de carga de datos" />
+              <img src={target1} className="w-auto h-[20rem]" alt="Imagen de carga de datos" />
             </button>
-
-            <button onClick={handleNavigateEliminar} className="text-center md:max-w-[40%] rounded-xl border-[5px] border-gray-300 m-5 hover:border-5 hover:border-orange-500">
+            <button onClick={handleNavigateEliminar} className="text-center md:max-w-[30%] rounded-xl border-[5px] border-gray-300 m-5 hover:border-5 hover:border-orange-500">
               <h1 className="text-xl font-bold p-5">Eliminar datos</h1>
-              <img src={target2} className="w-auto h-[25rem]" alt="Imagen de eliminación de datos" />
+              <img src={target2} className="w-auto h-[20rem]" alt="Imagen de eliminación de datos" />
             </button>
           </div>
         </>

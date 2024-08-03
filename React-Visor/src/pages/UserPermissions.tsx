@@ -104,6 +104,14 @@ const UserPermissionsView: React.FC = () => {
                 </table>
               </div>
             </div>
+            <div className="mt-4">
+              <button 
+                onClick={() => window.history.back()} 
+                className="bg-[#ec6b0c] text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-600"
+              >
+                Volver a la página anterior
+              </button>
+            </div>
           </>
         }
       />
