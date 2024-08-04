@@ -13,7 +13,7 @@ import fondoUPQROO from '../../public/LogoCafe.jpg';
 
 function Login() {
   const auth = useAuth();
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function Login() {
         navigate('/HomeAdmin');
       }
     }
-  }, [navigate]); 
+  }, [navigate]);
 
   const handleGoogle = async (e: any) => {
     e.preventDefault();

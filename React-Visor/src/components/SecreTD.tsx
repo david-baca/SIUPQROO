@@ -14,8 +14,8 @@ export interface Usuario {
 }
 
 export interface SecretarioAcademico {
-    fk_Usuario: number | null;
-  }
+  fk_Usuario: number | null;
+}
 
 const SecreTD: React.FC<UserTableRowProps> = ({ user }) => {
   const [isSecre, setIsSecre] = useState<SecretarioAcademico | null>(null);
@@ -47,11 +47,11 @@ const SecreTD: React.FC<UserTableRowProps> = ({ user }) => {
   };
 
   return (
-      <input
-        type="checkbox"
-        checked={isSecre?.fk_Usuario != null}
-        onChange={handleSecreChange}
-      />
+    <input
+      type="checkbox"
+      checked={isSecre?.fk_Usuario != null}
+      onChange={handleSecreChange}
+    />
   );
 };
 
