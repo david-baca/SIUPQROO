@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getFromLocalStorage } from "../context/Credentials";
+import { getFromLocalStorage } from '../context/Credentials';
 
 interface ChildProps {
   element: JSX.Element;
@@ -11,12 +11,12 @@ export const PrivateSecre: React.FC<ChildProps> = ({ element }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (local == null || local.rol !== "secretario") {
+    if (local == null || local.rol !== 'secretario') {
       navigate('/');
     }
   }, [local, navigate]);
 
-  return local && local.rol === "secretario" ? element : null;
+  return local && local.rol === 'secretario' ? element : null;
 };
 
 export const PrivateDirect: React.FC<ChildProps> = ({ element }) => {
@@ -24,12 +24,12 @@ export const PrivateDirect: React.FC<ChildProps> = ({ element }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (local == null || local.rol !== "director") {
+    if (local == null || local.rol !== 'director') {
       navigate('/');
     }
   }, [local, navigate]);
 
-  return local && local.rol === "director" ? element : null;
+  return local && local.rol === 'director' ? element : null;
 };
 
 export const PrivateAdmin: React.FC<ChildProps> = ({ element }) => {
@@ -37,10 +37,10 @@ export const PrivateAdmin: React.FC<ChildProps> = ({ element }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (local == null || local.rol !== "administrador") {
+    if (local == null || local.rol !== 'administrador') {
       navigate('/');
     }
   }, [local, navigate]);
 
-  return local && local.rol === "administrador" ? element : null;
+  return local && local.rol === 'administrador' ? element : null;
 };

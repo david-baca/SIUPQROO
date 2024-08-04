@@ -6,7 +6,9 @@ import instance from '../api/axios';
 
 const HomeSecretAcad = () => {
   const [userType, setUserType] = useState<string | null>(null);
-  const [carreraSeleccionado, setCarreraSeleccionado] = useState<string | null>(null);
+  const [carreraSeleccionado, setCarreraSeleccionado] = useState<string | null>(
+    null
+  );
   const [Periodos, setPeriodos] = useState<string[]>([]);
   const [PkPeriodo, setPkPeriodos] = useState<number[]>([]);
   const [Carreras, setCarreras] = useState<string[]>([]);
@@ -38,13 +40,17 @@ const HomeSecretAcad = () => {
 
   async function postPeriodo(fkCarrera: number, fkPeriodo: number) {
     try {
-      const response = await instance.post('/reports/all', {
-        fkCarrera: fkCarrera,
-        fkPeriodo: fkPeriodo
-      }, {
-        responseType: 'blob'
-      });
-      
+      const response = await instance.post(
+        '/reports/all',
+        {
+          fkCarrera: fkCarrera,
+          fkPeriodo: fkPeriodo
+        },
+        {
+          responseType: 'blob'
+        }
+      );
+
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
@@ -95,7 +101,9 @@ const HomeSecretAcad = () => {
               {Periodos.map((periodo, index) => (
                 <button
                   key={index}
-                  onClick={() => postPeriodo(Number(carreraSeleccionado), PkPeriodo[index])}
+                  onClick={() =>
+                    postPeriodo(Number(carreraSeleccionado), PkPeriodo[index])
+                  }
                   className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 m-1 md:m-6 rounded-full w-[60%]">
                   Descargar desempeño {periodo}
                 </button>
