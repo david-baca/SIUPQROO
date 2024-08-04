@@ -28,10 +28,6 @@ const CargarDatos = () => {
     extraction();
   }, []);
 
-  const handleNavigateCargarperiodos = () => {
-    navigate('/CargaPeriodos');
-  };
-
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>, archivo: string) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -55,7 +51,12 @@ const CargarDatos = () => {
           });
 
           if (response.data.estado) {
-            navigate(0)
+            // Update the exist status of the file
+            setDatosACargar(prevState => 
+              prevState.map(dato => 
+                dato.archivo === archivo ? { ...dato, exist: true } : dato
+              )
+            );
           } else {
             console.error('Error al cargar el archivo');
             alert('Error al cargar el archivo');
@@ -70,6 +71,15 @@ const CargarDatos = () => {
           [archivo]: `El archivo seleccionado no coincide con ${archivo}`
         }));
       }
+    }
+  };
+
+  const handleNavigateCargarperiodos = () => {
+    const allFilesLoaded = DatosACargar.every(dato => dato.exist);
+    if (allFilesLoaded) {
+      navigate('/CargaPeriodos');
+    } else {
+      alert('Debe cargar todos los archivos antes de continuar.');
     }
   };
 
