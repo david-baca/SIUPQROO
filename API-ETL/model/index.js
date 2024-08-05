@@ -11,7 +11,6 @@ const Directores = require('./Directores');
 const Administradores = require('./Administradores');
 const SecretariosAcademicos = require('./SecretariosAcademicos');
 const Usuarios = require('./Usuarios');
-
 // Definir las asociaciones
 
 // Profesores -> ListAsing

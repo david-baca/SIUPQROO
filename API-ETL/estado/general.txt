@@ -1,5 +1,0 @@
-Iniciando proceso de extraccion
-CORECTO fase 1 de extraccion de asignaciones
-CORECTO fase 2 de extraccion de calificaciones
-CORECTO fase 3 de extraccion de datos en genal
-FIN DEL LA EXTRACCION
