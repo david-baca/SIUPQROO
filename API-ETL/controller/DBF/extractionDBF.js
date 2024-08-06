@@ -4,6 +4,7 @@ const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const patCarpEst = path.resolve(__dirname, '../../estado');
+const reload_process = require("../../config/reload_process");
 // extracción de datos
 exports.getRegistersDBF = async (req, res) => {
     try {
@@ -35,6 +36,7 @@ exports.getRegistersDBF = async (req, res) => {
         // Ejecutar el proceso de extracción en segundo plano
         exec('node controller/extract/start.js')
         //responder con los periodos aceoptados
+        await reload_process()
         res.status(200).json(Periodo);
     } catch (error) {
         res.status(500).json({ estado: false, mensaje: 'Error en el servidor', error: error.message });

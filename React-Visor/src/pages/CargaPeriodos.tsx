@@ -49,18 +49,28 @@ const CargaPeriodos: React.FC<CargaPeriodosProps> = ({ setResponse }) => {
   ]);
 
   const validar = () => {
-    const newCuatrimestreSeleccionado = cuatrimestreSeleccionado.map(
-      (selection) => {
-        if (selection.cuatri === 'Cuatrimestre' || selection.anio === 0)
-          return selection;
-        if (selection.anio !== anioActual) return selection;
-        if (mesActual <= selection.mes)
-          return { ...selection, cuatri: 'Cuatrimestre', mes: 0 };
-        return selection;
+    const newCuatrimestreSeleccionado = cuatrimestreSeleccionado.map((selection) => {
+      if (selection.cuatri === 'Cuatrimestre' || selection.anio === 0) return selection;
+      if (selection.anio !== anioActual) return selection;
+      if (mesActual <= selection.mes) return { ...selection, cuatri: 'Cuatrimestre', mes: 0 };
+      
+      let count = 0;
+      cuatrimestreSeleccionado.forEach((i) => {
+        if (i.cuatri === selection.cuatri && i.mes === selection.mes && i.anio === selection.anio) {
+          count += 1;
+        }
+      });
+  
+      if (count > 1) {
+        return { ...selection, cuatri: 'Cuatrimestre', mes: 0 };
       }
-    );
+  
+      return selection;
+    });
+    
     setCuatrimestreSeleccionado(newCuatrimestreSeleccionado);
   };
+  
 
   const handleAnioChange = (
     index: number,

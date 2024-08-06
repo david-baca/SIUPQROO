@@ -7,7 +7,7 @@ const Materias = require("../../model/Materias");
 const Periodo = require("../../model/Periodo");
 const Profesores = require("../../model/Profesores");
 const fs = require('fs').promises;
-
+const reload_process = require("../../config/reload_process");
 const path = require('path');
 const patCarpDBF = path.resolve(__dirname, '../../DBF');;
 const patCarpEst = path.resolve(__dirname, '../../estado');;
@@ -40,10 +40,13 @@ exports.deleteDBF = async (req, res) => {
       await fs.access(patCarpDBF); // Verificar si existe
       await fs.rm(patCarpDBF, { recursive: true, force: true }); // Eliminar
     } catch (err) {
+      await reload_process()
       res.status(500).json({ message: `Error al intentar limpiar los datos. ${err}` });
     }
+    await reload_process()
     res.status(200).json({ message: 'Eliminación exitosa' });
   } catch (err) {
+    await reload_process()
     res.status(500).json({ message: `Error al intentar limpiar los datos. ${err}` });
   }
 }

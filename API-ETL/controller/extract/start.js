@@ -1,4 +1,3 @@
-
 const procesarList_Asing = require('./02_ListAsing');
 const procesarListCalif = require('./03_ListCalif');
 const procesarExecute = require('./04_execute');
@@ -8,7 +7,7 @@ const {updateCarreras} = require('../../model/CarrerasProcess');
 const {updateGrupos} = require('../../model/GruposProcess');
 const {updateMaterias} = require('../../model/MateriasProcess');
 const {updateProfesores} = require('../../model/ProfesoresProcess');
-
+const reload_process = require("../../config/reload_process");
 async function iniciar() {
     try {
         await writeEstado(`general.txt`, `Iniciando proceso de extraccion`);
@@ -24,6 +23,7 @@ async function iniciar() {
             await updateMaterias();
             await updateProfesores();
         await writeEstado(`general.txt`, `FIN DEL LA EXTRACCION`)
+        await reload_process()
     } catch (error) {
         await writeEstado(`general.txt`, `FALLO EN LA EXTRACCION`);
     }
