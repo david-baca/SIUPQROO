@@ -1,7 +1,7 @@
 // main.js
-const {estadisticasGrupos} = require('./model/GruposProcess');
+const {estadisticasCarreras} = require('./model/CarrerasProcess');
 
 (async () => {
-  const x = await estadisticasGrupos();
+  const x = await estadisticasCarreras();
   console.log(x)
 })();

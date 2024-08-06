@@ -22,8 +22,9 @@ const HomeDirectCar = () => {
     }
   }
 
-  async function postPeriodo(fkCarrera: number, fkPeriodo: number) {
+  async function postPeriodo(fkCarrera: number, fkPeriodo: number, periodo: String) {
     try {
+      const carrerax = await instance.get("/carrera/read/"+fkCarrera)
       const response = await instance.post(
         '/reports/all',
         {
@@ -34,11 +35,11 @@ const HomeDirectCar = () => {
           responseType: 'blob'
         }
       );
-
+      let nombre = "DESEMPEÑO ESCOLAR "+carrerax.data.nombre+" "+periodo+".xlsx"
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', 'DesempeñoEscolar.xlsx');
+      link.setAttribute('download', nombre);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -74,7 +75,7 @@ const HomeDirectCar = () => {
               {Periodos.map((item, index) => (
                 <button
                   key={index}
-                  onClick={() => postPeriodo(FkCarrera!, PkPeriodo[index])}
+                  onClick={() => postPeriodo(FkCarrera!, PkPeriodo[index], item)}
                   className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 m-1 md:m-6 rounded-full w-[60%]">
                   Descargar desempeño {item}
                 </button>

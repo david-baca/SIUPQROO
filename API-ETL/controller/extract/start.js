@@ -4,9 +4,9 @@ const procesarListCalif = require('./03_ListCalif');
 const procesarExecute = require('./04_execute');
 const writeEstado = require('./escribirEstados');
 const {updateAlumnos} = require('../../model/AlumnosProcess');
-const updateCarreras = require('../../model/CarrerasProcess');
+const {updateCarreras} = require('../../model/CarrerasProcess');
 const {updateGrupos} = require('../../model/GruposProcess');
-const updateMaterias = require('../../model/MateriasProcess');
+const {updateMaterias} = require('../../model/MateriasProcess');
 const {updateProfesores} = require('../../model/ProfesoresProcess');
 
 async function iniciar() {
