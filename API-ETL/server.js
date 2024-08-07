@@ -1,9 +1,9 @@
 const app = require('./app');
 const http = require('http');
 const { Server } = require('socket.io'); // Asegúrate de usar `Server` en lugar de `io`
-const PORT = 3051;
-
-const PORT_API = process.env.PORT || 3000;
+require('dotenv').config();
+const PORT = process.env.PORT_SOCKET || 3051;
+const PORT_API = process.env.PORT_API || 3000;
 
 app.listen(PORT_API, () => {
     console.log(`Servidor corriendo en el puerto ${PORT_API}`);

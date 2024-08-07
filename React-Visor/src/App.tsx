@@ -18,7 +18,8 @@ import UserPermissionsView from './pages/UserPermissions.tsx';
 import { useEffect, useState } from 'react';
 import axios from './api/axios.tsx';
 import { io } from 'socket.io-client';
-const socket = io('http://localhost:3051');
+const port_socket = import.meta.env.VITE_BASE_URL_SOCKET;
+const socket = io(port_socket);
 
 function App() {
   return (
