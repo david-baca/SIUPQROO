@@ -17,7 +17,7 @@ const DeleteConfirmation: React.FC<DeleteConfirmationProps> = ({
         await axios.delete(`/user/delete/${userId}`);
         handleCloseDelete();
       } catch (error) {
-        console.error('Error deleting user:', error);
+        alert("no es posible eliminar esta usuario intente rebocar pimero sus permisos")
       }
     }
   };

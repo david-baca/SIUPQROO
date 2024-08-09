@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './pages/Login';
 import { AuthProvider } from './context/AuthContext.js';
 import HomeAdmin from './pages/homeAdmin.tsx';
@@ -17,6 +17,9 @@ import HomeSecretAcad from './pages/HomeSecrAcad.tsx';
 import UserPermissionsView from './pages/UserPermissions.tsx';
 import { useEffect, useState } from 'react';
 import axios from './api/axios.tsx';
+import { io } from 'socket.io-client';
+const port_socket = import.meta.env.VITE_BASE_URL_SOCKET;
+const socket = io(port_socket);
 
 function App() {
   return (
@@ -28,7 +31,7 @@ function App() {
             path="/HomeAdmin"
             element={<PrivateAdmin element={<HomeAdmin />} />}
           />
-          <Route path="/Permisos" element={<UserPermissionsView />} />
+          <Route path="/Permisos" element={<PrivateAdmin element={<UserPermissionsView />}/>} />
           <Route
             path="/DeleteData"
             element={
@@ -123,6 +126,20 @@ export const GestorAdmin: React.FC<ChildDesition> = ({
   Fallo,
   Cargando
 }) => {
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('¡estoy dentro!')
+    });
+    socket.on('procesado',() => {
+      console.log('¡Evento ejecutado recibido!');
+      navigate(0)
+    });
+    return()=>{
+      socket.off('procesado');
+      socket.off('connect');
+    }
+  }, []);
+  const navigate = useNavigate();
   const [estado, setEstado] = useState(0);
 
   const validar = async () => {

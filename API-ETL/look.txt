@@ -1,1 +1,3 @@
-npm install express dbf-reader moment sequelize mysql2 body-parser multer cors xlsx-populate
+npm install express
+npm install --save-dev nodemon dotenv
+npm install child_process dbffile moment sequelize mysql2 body-parser multer cors xlsx-populate socket.io socket.io-client

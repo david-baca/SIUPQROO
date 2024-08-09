@@ -1,17 +1,19 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const routerDBF = require('./view/dbfRoutes');
-const routerUser = require('./view/userRoutes');
-const routerCarrera = require('./view/carreraRoute');
-const routeCheck = require('./view/checkRoute');
-const routePeriodo = require('./view/periodoRoute');
-const routerReports = require('./view/reposrtsRoute');
-const sequelize = require('./config/database');
+const routerDBF = require('./dist/view/dbfRoutes');
+const routerUser = require('./dist/view/userRoutes');
+const routerCarrera = require('./dist/view/carreraRoute');
+const routeCheck = require('./dist/view/checkRoute');
+const routePeriodo = require('./dist/view/periodoRoute');
+const routerReports = require('./dist/view/reposrtsRoute');
+const sequelize = require('./dist/config/database');
 const app = express();
+require('dotenv').config();
+const port_front = process.env.ORIGIN_PORT_FRONT || 3700;
 // Configuración básica de CORS para permitir todas las solicitudes
 app.use(cors({
-    origin: 'http://localhost:3700', // Permitir solicitudes solo desde este dominio
+    origin: `http://localhost:${port_front}`, // Permitir solicitudes solo desde este dominio
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT'], // Métodos HTTP permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos en las solicitudes
   }));
